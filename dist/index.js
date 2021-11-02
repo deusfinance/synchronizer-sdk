@@ -24,7 +24,8 @@ class DeusClient {
     options = {}
   } = {}) {
     this.providerMapping = providerMapping.map(provider => (0, _index.trimTrailingSlash)(provider));
-    this.chainId = chainId; // this.verbose = options?.verbose ?? false
+    this.chainId = chainId;
+    this.verbose = (options === null || options === void 0 ? void 0 : options.verbose) ?? false;
 
     this._sanitizeParams();
   }

@@ -13,7 +13,7 @@ export class DeusClient {
   } = {}) {
     this.providerMapping = providerMapping.map(provider => trimTrailingSlash(provider))
     this.chainId = chainId
-    // this.verbose = options?.verbose ?? false
+    this.verbose = options?.verbose ?? false
     this._sanitizeParams()
   }
 
