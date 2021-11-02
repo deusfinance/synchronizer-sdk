@@ -1,13 +1,6 @@
-import axios from 'axios'
+import fetch from 'isomorphic-unfetch';
 
 import { SUPPORTED_CHAINS_BY_CHAIN_ID } from '../constants/index.js'
-
-axios.defaults.headers = {
-  ...axios.defaults.headers,
-  'Access-Control-Allow-Origin': '*',
-  'Cache-Control': 'no-cache',
-  'Pragma': 'no-cache',
-};
 
 export const trimTrailingSlash = (text) => {
   return text.replace(/\/$/, "")
@@ -25,25 +18,14 @@ export const chainIdToNetworkName = (chainId) => {
 }
 
 export const makeHttpRequest = async (url, options = {
-  crossdomain: true,
+  cache: 'no-cache'
 }) => {
   try {
-    let response = await axios.get(url, options)
-    return response.data
+    let response = await fetch(url, options)
+    return await response.json()
   } catch (err) {
     console.log(`Error fetching ${url}: `)
-    if (err.response) {
-      // Request made and server responded
-      console.log(err.response.data);
-      console.log(err.response.status);
-      console.log(err.response.headers);
-    } else if (err.request) {
-      // The request was made but no response was received
-      console.log(err.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log('Error', err.message);
-    }
+    console.error(err)
     return null
   }
 }
