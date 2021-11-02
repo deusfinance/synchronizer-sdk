@@ -1,12 +1,12 @@
 {
   "name": "@deusfinance/synchronizer-sdk",
   "license": "MIT",
-  "version": "1.0.0",
-  "description": "An SDK to interact with the Synchronizer to build financial applications on top of DEUS Finance",
+  "version": "1.0.1",
+  "description": "An SDK to interact with the Synchronizer to build financial applications on top of DEUS Finance.",
   "main": "dist/index.js",
   "files": [
     "dist"
-  ],  
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/deusfinance/synchronizer-sdk.git"
@@ -63,23 +63,23 @@
     "watch:dev": "nodemon"
   },
   "dependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/node": "^7.16.0",
-    "@babel/preset-env": "^7.16.0",
     "axios": "^0.24.0",
-    "axios-cache-adapter": "^2.7.3",
-    "babel-jest": "^27.3.1",
-    "babel-plugin-inline-json-import": "^0.3.2",
-    "core-js": "^3.19.0",
-    "nodemon": "^2.0.14",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2"
+    "axios-cache-adapter": "^2.7.3"
   },
   "engines": {
     "node": ">=14"
   },
   "devDependencies": {
-    "jest": "^27.3.1"
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "babel-jest": "^27.3.1",
+    "babel-plugin-inline-json-import": "^0.3.2",
+    "core-js": "^3.19.0",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.14",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
   }
 }
