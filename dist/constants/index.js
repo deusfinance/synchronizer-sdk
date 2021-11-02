@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID = exports.SUPPORTED_CHAINS_BY_NAME = exports.SUPPORTED_CHAINS_BY_CHAIN_ID = exports.ABI = void 0;
-const AMM_ABI_ETH = [{
+var AMM_ABI_ETH = [{
   inputs: [{
     internalType: "uint256",
     name: "_remainingDollarCap",
@@ -509,7 +509,7 @@ const AMM_ABI_ETH = [{
   stateMutability: "view",
   type: "function"
 }];
-const AMM_ABI_BSC = [{
+var AMM_ABI_BSC = [{
   inputs: [{
     internalType: "uint256",
     name: "_remainingDollarCap",
@@ -1014,7 +1014,7 @@ const AMM_ABI_BSC = [{
   stateMutability: "view",
   type: "function"
 }];
-const AMM_ABI_HECO = [{
+var AMM_ABI_HECO = [{
   inputs: [{
     internalType: "uint256",
     name: "_remainingDollarCap",
@@ -1519,7 +1519,7 @@ const AMM_ABI_HECO = [{
   stateMutability: "view",
   type: "function"
 }];
-const AMM_ABI_XDAI = [{
+var AMM_ABI_XDAI = [{
   inputs: [{
     internalType: "uint256",
     name: "multiplier",
@@ -1678,7 +1678,7 @@ const AMM_ABI_XDAI = [{
   stateMutability: "view",
   type: "function"
 }];
-const AMM_ABI_POLYGON = [{
+var AMM_ABI_POLYGON = [{
   inputs: [{
     internalType: "uint256",
     name: "_remainingDollarCap",
@@ -2183,7 +2183,7 @@ const AMM_ABI_POLYGON = [{
   stateMutability: "view",
   type: "function"
 }];
-const SUPPORTED_CHAINS_BY_NAME = {
+var SUPPORTED_CHAINS_BY_NAME = {
   MAINNET: 1,
   BSC: 56,
   XDAI: 100,
@@ -2191,7 +2191,7 @@ const SUPPORTED_CHAINS_BY_NAME = {
   POLYGON: 137
 };
 exports.SUPPORTED_CHAINS_BY_NAME = SUPPORTED_CHAINS_BY_NAME;
-const SUPPORTED_CHAINS_BY_CHAIN_ID = {
+var SUPPORTED_CHAINS_BY_CHAIN_ID = {
   1: 'MAINNET',
   56: 'BSC',
   100: 'XDAI',
@@ -2199,7 +2199,7 @@ const SUPPORTED_CHAINS_BY_CHAIN_ID = {
   137: 'POLYGON'
 };
 exports.SUPPORTED_CHAINS_BY_CHAIN_ID = SUPPORTED_CHAINS_BY_CHAIN_ID;
-const SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID = {
+var SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID = {
   1: '0x7a27a7BF25d64FAa090404F94606c580ce8E1D37',
   56: '0x3b62f3820e0b035cc4ad602dece6d796bc325325',
   100: '0x89951F2546f36789072c72C94272a68970Eba65e',
@@ -2208,7 +2208,7 @@ const SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID = {
   137: '0x5e16B021994e3c2536435CA3A45f0dA6536eD315'
 };
 exports.SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID = SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID;
-const ABI = {
+var ABI = {
   MAINNET: AMM_ABI_ETH,
   BSC: AMM_ABI_BSC,
   XDAI: AMM_ABI_XDAI,

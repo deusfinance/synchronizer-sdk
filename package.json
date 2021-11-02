@@ -1,7 +1,7 @@
 {
   "name": "@deusfinance/synchronizer-sdk",
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An SDK to interact with the Synchronizer to build financial applications on top of DEUS Finance.",
   "main": "dist/index.js",
   "files": [
@@ -33,16 +33,7 @@
     ]
   },
   "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ],
+    "presets": ["@babel/preset-env"],
     "plugins": [
       [
         "inline-json-import",
@@ -73,6 +64,7 @@
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "babel-jest": "^27.3.1",
     "babel-plugin-inline-json-import": "^0.3.2",
