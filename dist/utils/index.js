@@ -1,27 +1,31 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trimTrailingSlash = exports.makeHttpRequest = exports.isSupportedChainId = exports.chainIdToNetworkName = void 0;
 
-var _axios = _interopRequireDefault(require("axios"));
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-var _axiosCacheAdapter = require("axios-cache-adapter");
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _axios = _interopRequireDefault(require("axios"));
 
 var _index = require("../constants/index.js");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-_axios["default"].defaults.headers = {
+_axios["default"].defaults.headers = _objectSpread(_objectSpread({}, _axios["default"].defaults.headers), {}, {
+  'Access-Control-Allow-Origin': '*',
   'Cache-Control': 'no-cache',
-  'Pragma': 'no-cache',
-  'Expires': '0'
-};
+  'Pragma': 'no-cache'
+});
 
 var trimTrailingSlash = function trimTrailingSlash(text) {
   return text.replace(/\/$/, "");
@@ -46,23 +50,28 @@ var chainIdToNetworkName = function chainIdToNetworkName(chainId) {
 exports.chainIdToNetworkName = chainIdToNetworkName;
 
 var makeHttpRequest = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(url, options) {
-    var response;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+  var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(url) {
+    var options,
+        response,
+        _args = arguments;
+    return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            options = _args.length > 1 && _args[1] !== undefined ? _args[1] : {
+              crossdomain: true
+            };
+            _context.prev = 1;
+            _context.next = 4;
             return _axios["default"].get(url, options);
 
-          case 3:
+          case 4:
             response = _context.sent;
             return _context.abrupt("return", response.data);
 
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](0);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](1);
             console.log("Error fetching ".concat(url, ": "));
 
             if (_context.t0.response) {
@@ -80,15 +89,15 @@ var makeHttpRequest = /*#__PURE__*/function () {
 
             return _context.abrupt("return", null);
 
-          case 12:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 7]]);
+    }, _callee, null, [[1, 8]]);
   }));
 
-  return function makeHttpRequest(_x, _x2) {
+  return function makeHttpRequest(_x) {
     return _ref.apply(this, arguments);
   };
 }();

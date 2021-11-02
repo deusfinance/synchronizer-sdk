@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { setupCache } from 'axios-cache-adapter'
 
 import { SUPPORTED_CHAINS_BY_CHAIN_ID } from '../constants/index.js'
 
 axios.defaults.headers = {
+  ...axios.defaults.headers,
+  'Access-Control-Allow-Origin': '*',
   'Cache-Control': 'no-cache',
   'Pragma': 'no-cache',
-  'Expires': '0',
 };
 
 export const trimTrailingSlash = (text) => {
@@ -24,7 +24,9 @@ export const chainIdToNetworkName = (chainId) => {
   return SUPPORTED_CHAINS_BY_CHAIN_ID[chainId] ? SUPPORTED_CHAINS_BY_CHAIN_ID[chainId].toLowerCase() : null
 }
 
-export const makeHttpRequest = async (url, options) => {
+export const makeHttpRequest = async (url, options = {
+  crossdomain: true,
+}) => {
   try {
     let response = await axios.get(url, options)
     return response.data

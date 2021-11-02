@@ -1,9 +1,19 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DeusClient = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
 var _index = require("./utils/index.js");
 
@@ -17,16 +27,6 @@ var _details = require("./oracles/details.js");
 
 var _index2 = require("./constants/index.js");
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 var DeusClient = /*#__PURE__*/function () {
   function DeusClient() {
     var _options$verbose;
@@ -39,8 +39,7 @@ var DeusClient = /*#__PURE__*/function () {
         _ref$options = _ref.options,
         options = _ref$options === void 0 ? {} : _ref$options;
 
-    _classCallCheck(this, DeusClient);
-
+    (0, _classCallCheck2["default"])(this, DeusClient);
     this.providerMapping = providerMapping.map(function (provider) {
       return (0, _index.trimTrailingSlash)(provider);
     });
@@ -50,7 +49,7 @@ var DeusClient = /*#__PURE__*/function () {
     this._sanitizeParams();
   }
 
-  _createClass(DeusClient, [{
+  (0, _createClass2["default"])(DeusClient, [{
     key: "_sanitizeParams",
     value: function _sanitizeParams() {
       if (!this.providerMapping.length) throw new Error('providerMapping is an empty array');
@@ -65,9 +64,9 @@ var DeusClient = /*#__PURE__*/function () {
   }, {
     key: "getSignatures",
     value: function () {
-      var _getSignatures = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(secondaryChainId) {
+      var _getSignatures = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(secondaryChainId) {
         var chainId;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return _regenerator["default"].wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -93,9 +92,9 @@ var DeusClient = /*#__PURE__*/function () {
   }, {
     key: "getConducted",
     value: function () {
-      var _getConducted = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(secondaryChainId) {
+      var _getConducted = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(secondaryChainId) {
         var chainId;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -121,9 +120,9 @@ var DeusClient = /*#__PURE__*/function () {
   }, {
     key: "getQuotes",
     value: function () {
-      var _getQuotes = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(secondaryChainId) {
+      var _getQuotes = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(secondaryChainId) {
         var chainId;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
@@ -149,8 +148,8 @@ var DeusClient = /*#__PURE__*/function () {
   }, {
     key: "getDetails",
     value: function () {
-      var _getDetails = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _getDetails = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
@@ -187,7 +186,6 @@ var DeusClient = /*#__PURE__*/function () {
       return [this.setChainId, this.getSignatures, this.getConducted, this.getQuotes, this.getDetails, this.constants];
     }
   }]);
-
   return DeusClient;
 }();
 
