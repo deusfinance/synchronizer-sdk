@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "description": "An SDK to interact with the Synchronizer to build financial applications on top of DEUS Finance",
   "main": "dist/index.js",
-  "bin": "dist/index.js",
   "repository": "https://github.com/deusfinance/synchronizer-sdk.git",
   "keywords": [
     "deus",
