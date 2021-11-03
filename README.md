@@ -25,29 +25,47 @@ const Client = new DeusClient({
 })
 ```
 
-### How to Use
+
+## How to Use
 The client is simple in nature and only has getter functions, thus no internal caching. After initialization no data is automatically fetched or stored, they need to be called manually. This design was chosen because modern web frameworks are better equipped to handle caching and state management. However, the client allows the fetching of data across multiple chains despite the initial chainId param. You can see this at work via the Client.oracles[] functions.
 
+
 ## API Reference
+
+Function getMethods()
+> Get a list of available functions.
 ```
 **
-* Get a list of all available functions.
 * @returns {Object}
 */
 Client.getMethods()
 ```
 
+
+Object constants
+> Get a list of constants (addresses, ABIs, pairs etc.)
 ```
 **
-* Change the chainId post-initialization, keep in mind that data won't be refetched and will need to be triggered manually.
-* @param {String} chainId - the chainId you're using for your app. Check Client.constants.SUPPORTED_CHAIN_IDS for the supported chains.
+* @returns {Object}
+*/
+Client.constants
+```
+
+
+Function setChainId()
+> Change the chainId post-initialization, keep in mind that data won't be refetched and will need to be triggered manually.
+```
+**
+* @param {String} chainId - the chainId you're using for your app.
 */
 Client.setChainId(chainid)
 ```
 
+
+Async Function oracles.getSignatures()
+> Oracle signatures for all of the available assets on a specific chain. 
 ```
 **
-* Oracle signatures for all of the available assets on a specific chain. 
 * @param {Number} secondaryChainId - OPTIONAL - provide a chainId that bypasses the originally provided chainId. 
 * @returns {Array} - mapping of signatures per node, check Client.functions.prepareSignatureParams to handle the response.
 */
@@ -55,28 +73,57 @@ Client.setChainId(chainid)
 ```
 
 
+Async Function oracles.getConducted()
+> Get a list of all the available assets on a specific chain. In the event of a node lagging, the returned 'consensus' key will identify this.
 ```
 **
-* Get a list of all the available assets on a specific chain. In the event of a node lagging, the returned 'consensus' key will identify this.
 * @param {Number} secondaryChainId - OPTIONAL - provide a chainId that bypasses the originally provided chainId. 
 * @returns {Object}<String:Object> - hashtable of symbols and their respective long+short contracts.
 */
 <async> Client.oracles.getConducted(secondaryChainId)
 ```
 
+
+Async Function oracles.getQuotes()
+> Get quotes for all available assets on a specific chain. In the event of a node lagging, the returned 'consensus' key will identify this.
 ```
 **
-* Get quotes for all available assets on a specific chain. In the event of a node lagging, the returned 'consensus' key will identify this.
 * @param {Number} secondaryChainId - OPTIONAL - provide a chainId that bypasses the originally provided chainId. 
 * @returns {Object}<String:Object> - hashtable of symbols and their respective price + fee + closed.
 */
 <async> Client.oracles.getQuotes(secondaryChainId)
 ```
 
+
+Async Function oracles.getDetails()
+> Get more information on the supported assets, this is regardless of the chain you're on.
 ```
 **
-* Get more information on the supported assets, this is regardless of the chain you're on.
 * @returns {Object}<String:Object> - hashtable of symbols and their respective info.
 */
 <async> Client.oracles.getDetails()
+```
+
+
+Function functions.prepareSignatureParams()
+> Parse the provided signatures response in order for them to be passed to the Synchronizer smart contract. Keep in mind that the output isn't sufficient and needs additional params outside of the SDK scope. For a complete list check: https://github.com/deusfinance/synchronizer-contracts/blob/master/contracts/Synchronizer.sol#L121
+```
+**
+* @param {Array} signatures - data from Client.getSignatures()
+* @param {String} contract - long or short contract that must be included in Conducted
+* @param {String} action - 'buy' or 'sell' (keep in mind that opening a short is considered a 'buy')
+* @returns {Object} - signature related params of the correct type 
+*/
+Client.functions.prepareSignatureParams(signatures, contract, action)
+```
+
+
+Function utils.isSupportedChainId()
+> Check whether your chainId is supported by the Synchronizer.
+```
+**
+* @param {Number} chainId
+* @returns {Boolean} true or false
+*/
+Client.utils.isSupportedChainId(chainId)
 ```
