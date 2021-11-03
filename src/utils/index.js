@@ -6,7 +6,7 @@ export const trimTrailingSlash = (text) => {
   return text.replace(/\/$/, "")
 }
 
-export const isSupportedChainId = (chainId) => {
+export const throwErrorOnUnsupportedChainId = (chainId) => {
   if (!chainIdToNetworkName(chainId)) {
     throw new Error(`The provided chainId ${chainId} is not supported by the oracles`)
   }

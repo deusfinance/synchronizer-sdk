@@ -25,6 +25,6 @@ export const fetchSignatures = async (providerMapping, chainId) => {
   } catch (err) {
     console.log('Something went wrong while trying to fetch the signatures:')
     console.error(err)
-    return {}
+    return null
   }
 }

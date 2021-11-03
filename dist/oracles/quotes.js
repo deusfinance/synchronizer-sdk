@@ -108,7 +108,7 @@ var fetchQuotes = /*#__PURE__*/function () {
             _context.t0 = _context["catch"](0);
             console.log('Something went wrong while trying to fetch the quotes:');
             console.error(_context.t0);
-            return _context.abrupt("return", {});
+            return _context.abrupt("return", null);
 
           case 23:
           case "end":

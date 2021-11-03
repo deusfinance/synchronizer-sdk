@@ -63,6 +63,6 @@ export const fetchQuotes = async (providerMapping, chainId) => {
   } catch (err) {
     console.log('Something went wrong while trying to fetch the quotes:')
     console.error(err)
-    return {}
+    return null
   }
 }

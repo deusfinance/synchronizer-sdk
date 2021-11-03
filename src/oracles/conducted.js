@@ -80,6 +80,6 @@ export const fetchConducted = async (providerMapping, chainId) => {
   } catch (err) {
     console.log('Something went wrong while trying to fetch conducted:')
     console.error(err)
-    return {}
+    return null
   }
 }

@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.trimTrailingSlash = exports.makeHttpRequest = exports.isSupportedChainId = exports.chainIdToNetworkName = void 0;
+exports.trimTrailingSlash = exports.throwErrorOnUnsupportedChainId = exports.makeHttpRequest = exports.chainIdToNetworkName = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -21,7 +21,7 @@ var trimTrailingSlash = function trimTrailingSlash(text) {
 
 exports.trimTrailingSlash = trimTrailingSlash;
 
-var isSupportedChainId = function isSupportedChainId(chainId) {
+var throwErrorOnUnsupportedChainId = function throwErrorOnUnsupportedChainId(chainId) {
   if (!chainIdToNetworkName(chainId)) {
     throw new Error("The provided chainId ".concat(chainId, " is not supported by the oracles"));
   }
@@ -29,7 +29,7 @@ var isSupportedChainId = function isSupportedChainId(chainId) {
   return true;
 };
 
-exports.isSupportedChainId = isSupportedChainId;
+exports.throwErrorOnUnsupportedChainId = throwErrorOnUnsupportedChainId;
 
 var chainIdToNetworkName = function chainIdToNetworkName(chainId) {
   return _index.SUPPORTED_CHAINS_BY_CHAIN_ID[chainId] ? _index.SUPPORTED_CHAINS_BY_CHAIN_ID[chainId].toLowerCase() : null;

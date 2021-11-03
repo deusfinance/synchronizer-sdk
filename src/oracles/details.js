@@ -48,6 +48,6 @@ export const fetchDetails = async (providerMapping) => {
   } catch (err) {
     console.log('Something went wrong while trying to fetch details:')
     console.error(err)
-    return {}
+    return null
   }
 }

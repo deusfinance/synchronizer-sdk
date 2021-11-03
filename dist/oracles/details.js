@@ -82,7 +82,7 @@ var fetchDetails = /*#__PURE__*/function () {
             _context.t0 = _context["catch"](0);
             console.log('Something went wrong while trying to fetch details:');
             console.error(_context.t0);
-            return _context.abrupt("return", {});
+            return _context.abrupt("return", null);
 
           case 15:
           case "end":

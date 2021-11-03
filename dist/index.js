@@ -2,6 +2,8 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+var _typeof = require("@babel/runtime/helpers/typeof");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,173 +19,176 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _index = require("./utils/index.js");
 
-var _signatures = require("./oracles/signatures.js");
+var _utils = require("./client/utils.js");
 
-var _conducted = require("./oracles/conducted.js");
+var _oracles = require("./client/oracles.js");
 
-var _quotes = require("./oracles/quotes.js");
+var constants = _interopRequireWildcard(require("./client/constants.js"));
 
-var _details = require("./oracles/details.js");
+var _functions = require("./client/functions.js");
 
-var _index2 = require("./constants/index.js");
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var DeusClient = /*#__PURE__*/function () {
   function DeusClient() {
-    var _options$verbose;
-
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$providerMapping = _ref.providerMapping,
-        providerMapping = _ref$providerMapping === void 0 ? [] : _ref$providerMapping,
-        _ref$chainId = _ref.chainId,
-        chainId = _ref$chainId === void 0 ? 1 : _ref$chainId,
-        _ref$options = _ref.options,
-        options = _ref$options === void 0 ? {} : _ref$options;
+        _ref$providers = _ref.providers,
+        providers = _ref$providers === void 0 ? [] : _ref$providers,
+        chainId = _ref.chainId,
+        minimumSignatures = _ref.minimumSignatures;
 
     (0, _classCallCheck2["default"])(this, DeusClient);
-    this.providerMapping = providerMapping.map(function (provider) {
+    this.providerMapping = providers.map(function (provider) {
       return (0, _index.trimTrailingSlash)(provider);
     });
     this.chainId = chainId;
-    this.verbose = (_options$verbose = options === null || options === void 0 ? void 0 : options.verbose) !== null && _options$verbose !== void 0 ? _options$verbose : false;
+    this.minimumSignatures = minimumSignatures; // Sanitize params
 
-    this._sanitizeParams();
+    if (!this.providerMapping.length) throw new Error('providers is an empty array');
+    (0, _index.throwErrorOnUnsupportedChainId)(this.chainId);
+    if (!this.minimumSignatures && this.minimumSignatures !== 0) throw new Error('minimumSignatures is not defined');
+    if (this.minimumSignatures == 0) throw new Error('minimumSignatures can not be zero');
+    if (this.minimumSignatures > this.providerMapping.length) throw new Error('minimumSignatures is greater than the number of providers');
   }
 
   (0, _createClass2["default"])(DeusClient, [{
-    key: "_sanitizeParams",
-    value: function _sanitizeParams() {
-      if (!this.providerMapping.length) throw new Error('providerMapping is an empty array');
-      (0, _index.isSupportedChainId)(this.chainId);
-    }
-  }, {
     key: "setChainId",
     value: function setChainId(chainId) {
-      (0, _index.isSupportedChainId)(chainId);
+      (0, _index.throwErrorOnUnsupportedChainId)(chainId);
       return this.chainId = chainId;
     }
   }, {
-    key: "getSignatures",
-    value: function () {
-      var _getSignatures = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(secondaryChainId) {
-        var chainId;
-        return _regenerator["default"].wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                chainId = secondaryChainId !== null && secondaryChainId !== void 0 ? secondaryChainId : this.chainId;
-                this.verbose && console.log("Fetching signatures for chainId: ".concat(chainId));
-                (0, _index.isSupportedChainId)(chainId);
-                return _context.abrupt("return", (0, _signatures.fetchSignatures)(this.providerMapping, chainId));
+    key: "oracles",
+    get: function get() {
+      var _this = this;
 
-              case 4:
-              case "end":
-                return _context.stop();
-            }
+      return {
+        getSignatures: function () {
+          var _getSignatures2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(secondaryChainId) {
+            return _regenerator["default"].wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    return _context.abrupt("return", (0, _oracles.getSignatures)(_this.providerMapping, _this.chainId, secondaryChainId));
+
+                  case 1:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee);
+          }));
+
+          function getSignatures(_x) {
+            return _getSignatures2.apply(this, arguments);
           }
-        }, _callee, this);
-      }));
 
-      function getSignatures(_x) {
-        return _getSignatures.apply(this, arguments);
-      }
+          return getSignatures;
+        }(),
+        getConducted: function () {
+          var _getConducted2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(secondaryChainId) {
+            return _regenerator["default"].wrap(function _callee2$(_context2) {
+              while (1) {
+                switch (_context2.prev = _context2.next) {
+                  case 0:
+                    return _context2.abrupt("return", (0, _oracles.getConducted)(_this.providerMapping, _this.chainId, secondaryChainId));
 
-      return getSignatures;
-    }()
-  }, {
-    key: "getConducted",
-    value: function () {
-      var _getConducted = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(secondaryChainId) {
-        var chainId;
-        return _regenerator["default"].wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                chainId = secondaryChainId !== null && secondaryChainId !== void 0 ? secondaryChainId : this.chainId;
-                this.verbose && console.log("Fetching conducted for chainId: ".concat(chainId));
-                (0, _index.isSupportedChainId)(chainId);
-                return _context2.abrupt("return", (0, _conducted.fetchConducted)(this.providerMapping, secondaryChainId !== null && secondaryChainId !== void 0 ? secondaryChainId : this.chainId));
+                  case 1:
+                  case "end":
+                    return _context2.stop();
+                }
+              }
+            }, _callee2);
+          }));
 
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
+          function getConducted(_x2) {
+            return _getConducted2.apply(this, arguments);
           }
-        }, _callee2, this);
-      }));
 
-      function getConducted(_x2) {
-        return _getConducted.apply(this, arguments);
-      }
+          return getConducted;
+        }(),
+        getQuotes: function () {
+          var _getQuotes2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(secondaryChainId) {
+            return _regenerator["default"].wrap(function _callee3$(_context3) {
+              while (1) {
+                switch (_context3.prev = _context3.next) {
+                  case 0:
+                    return _context3.abrupt("return", (0, _oracles.getQuotes)(_this.providerMapping, _this.chainId, secondaryChainId));
 
-      return getConducted;
-    }()
-  }, {
-    key: "getQuotes",
-    value: function () {
-      var _getQuotes = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(secondaryChainId) {
-        var chainId;
-        return _regenerator["default"].wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                chainId = secondaryChainId !== null && secondaryChainId !== void 0 ? secondaryChainId : this.chainId;
-                this.verbose && console.log("Fetching quotes for chainId: ".concat(chainId));
-                (0, _index.isSupportedChainId)(chainId);
-                return _context3.abrupt("return", (0, _quotes.fetchQuotes)(this.providerMapping, secondaryChainId !== null && secondaryChainId !== void 0 ? secondaryChainId : this.chainId));
+                  case 1:
+                  case "end":
+                    return _context3.stop();
+                }
+              }
+            }, _callee3);
+          }));
 
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
+          function getQuotes(_x3) {
+            return _getQuotes2.apply(this, arguments);
           }
-        }, _callee3, this);
-      }));
 
-      function getQuotes(_x3) {
-        return _getQuotes.apply(this, arguments);
-      }
+          return getQuotes;
+        }(),
+        getDetails: function () {
+          var _getDetails2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
+            return _regenerator["default"].wrap(function _callee4$(_context4) {
+              while (1) {
+                switch (_context4.prev = _context4.next) {
+                  case 0:
+                    return _context4.abrupt("return", (0, _oracles.getDetails)(_this.providerMapping));
 
-      return getQuotes;
-    }()
-  }, {
-    key: "getDetails",
-    value: function () {
-      var _getDetails = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4() {
-        return _regenerator["default"].wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                this.verbose && console.log('Fetching registrar details');
-                return _context4.abrupt("return", (0, _details.fetchDetails)(this.providerMapping));
+                  case 1:
+                  case "end":
+                    return _context4.stop();
+                }
+              }
+            }, _callee4);
+          }));
 
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
+          function getDetails() {
+            return _getDetails2.apply(this, arguments);
           }
-        }, _callee4, this);
-      }));
 
-      function getDetails() {
-        return _getDetails.apply(this, arguments);
-      }
-
-      return getDetails;
-    }()
+          return getDetails;
+        }()
+      };
+    }
   }, {
     key: "constants",
     get: function get() {
+      return constants;
+    }
+  }, {
+    key: "functions",
+    get: function get() {
+      var _this2 = this;
+
       return {
-        SUPPORTED_CHAINS_BY_NAME: _index2.SUPPORTED_CHAINS_BY_NAME,
-        SUPPORTED_CHAINS_BY_CHAIN_ID: _index2.SUPPORTED_CHAINS_BY_CHAIN_ID,
-        SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID: _index2.SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID,
-        ABI: _index2.ABI
+        prepareSignatureParams: function prepareSignatureParams(signatures, contract, action) {
+          return (0, _functions.prepareSignatureParams)(signatures, contract, action, _this2.minimumSignatures);
+        }
+      };
+    }
+  }, {
+    key: "utils",
+    get: function get() {
+      return {
+        isSupportedChainId: _utils.isSupportedChainId
       };
     }
   }, {
     key: "getMethods",
     value: function getMethods() {
-      return [this.setChainId, this.getSignatures, this.getConducted, this.getQuotes, this.getDetails, this.constants];
+      return {
+        getMethods: this.getMethods,
+        setChainId: this.setChainId,
+        oracles: this.oracles,
+        constants: Object.keys(this.constants),
+        functions: this.functions,
+        utils: this.utils
+      };
     }
   }]);
   return DeusClient;
