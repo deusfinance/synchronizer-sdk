@@ -63,3 +63,20 @@ Client.setChainId(chainid)
 */
 <async> Client.oracles.getConducted(secondaryChainId)
 ```
+
+```
+**
+* Get quotes for all available assets on a specific chain. In the event of a node lagging, the returned 'consensus' key will identify this.
+* @param {Number} secondaryChainId - OPTIONAL - provide a chainId that bypasses the originally provided chainId. 
+* @returns {Object}<String:Object> - hashtable of symbols and their respective price + fee + closed.
+*/
+<async> Client.oracles.getQuotes(secondaryChainId)
+```
+
+```
+**
+* Get more information on the supported assets, this is regardless of the chain you're on.
+* @returns {Object}<String:Object> - hashtable of symbols and their respective info.
+*/
+<async> Client.oracles.getDetails()
+```
