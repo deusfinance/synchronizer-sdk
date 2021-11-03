@@ -15,6 +15,12 @@ Object.defineProperty(exports, "SUPPORTED_CHAINS_BY_NAME", {
     return _index.SUPPORTED_CHAINS_BY_NAME;
   }
 });
+Object.defineProperty(exports, "SUPPORTED_CHAIN_IDS", {
+  enumerable: true,
+  get: function get() {
+    return _index.SUPPORTED_CHAIN_IDS;
+  }
+});
 Object.defineProperty(exports, "SUPPORTED_PAIRS_BY_CHAIN_ID", {
   enumerable: true,
   get: function get() {

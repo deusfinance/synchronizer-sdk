@@ -39,6 +39,7 @@ describe('client methods', () => {
     expect(Client.constants).toHaveProperty('SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID')
     expect(Client.constants).toHaveProperty('SYNCHRONIZER_ABI_BY_CHAIN_ID')
     expect(Client.constants).toHaveProperty('SUPPORTED_PAIRS_BY_CHAIN_ID')
+    expect(Client.constants).toHaveProperty('SUPPORTED_CHAIN_IDS')
   })
 
   test("defines functions()", () => {
