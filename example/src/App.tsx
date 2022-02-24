@@ -5,7 +5,7 @@ import { useRegistrars, SupportedChainId, Registrar, useForceRefresh } from '@de
 /*
  * Internal data is updated once every 60 secondes. If you want access to the
  * latest information - for instance a real-time oracle quote - you could
- * increment the value of forceRefresh.
+ * call forceRefresh.
  */
 export default function App() {
   const list = useRegistrars(SupportedChainId.FANTOM)
