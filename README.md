@@ -135,5 +135,5 @@ usePartnerFeeCallback(sector: Sector)
 /**
  * Quotes/oracle data is fetched once every 60 seconds. This callback forces a refresh.
  */
-useForceRefresh()
+useForceRefreshCallback()
 ```

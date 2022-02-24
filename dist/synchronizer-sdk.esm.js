@@ -1568,7 +1568,7 @@ function useRegistrarTokens(chainId) {
 
 var updateForceRefresh = /*#__PURE__*/createAction('application/updateForceRefresh');
 
-function useForceRefresh() {
+function useForceRefreshCallback() {
   var _useApplicationState = useApplicationState(),
       forceRefresh = _useApplicationState.forceRefresh;
 
@@ -2020,5 +2020,5 @@ var addresses = {
   Synchronizer: Synchronizer
 };
 
-export { Direction, MuonClient, Sector, SupportedChainId, Provider as SynchronizerProvider, addresses, useForceRefresh, usePartnerFeeCallback, usePlatformFeeCallback, useRegistrarByContract, useRegistrarPairs, useRegistrarTokenMap, useRegistrarTokens, useRegistrars, useTotalFeeCallback };
+export { Direction, MuonClient, Sector, SupportedChainId, Provider as SynchronizerProvider, addresses, useForceRefreshCallback, usePartnerFeeCallback, usePlatformFeeCallback, useRegistrarByContract, useRegistrarPairs, useRegistrarTokenMap, useRegistrarTokens, useRegistrars, useTotalFeeCallback };
 //# sourceMappingURL=synchronizer-sdk.esm.js.map

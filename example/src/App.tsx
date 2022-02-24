@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useRegistrars, SupportedChainId, Registrar, useForceRefresh } from '@deusfinance/synchronizer-sdk'
+import { useRegistrars, SupportedChainId, Registrar, useForceRefreshCallback } from '@deusfinance/synchronizer-sdk'
 
 /*
  * Internal data is updated once every 60 secondes. If you want access to the
@@ -9,7 +9,7 @@ import { useRegistrars, SupportedChainId, Registrar, useForceRefresh } from '@de
  */
 export default function App() {
   const list = useRegistrars(SupportedChainId.FANTOM)
-  const forceRefresh = useForceRefresh()
+  const forceRefresh = useForceRefreshCallback()
 
   return (
     <div

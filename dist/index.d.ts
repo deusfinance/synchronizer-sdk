@@ -10,6 +10,6 @@ export { SupportedChainId } from './constants/chains';
 export { MuonClient } from './constants/oracle';
 export { useRegistrars, useRegistrarPairs, useRegistrarByContract, useRegistrarTokens, useRegistrarTokenMap, } from './hooks/useRegistrars';
 export { useTotalFeeCallback, usePlatformFeeCallback, usePartnerFeeCallback } from './hooks/useFees';
-export { useForceRefresh } from './hooks/useApplication';
+export { useForceRefreshCallback } from './hooks/useApplication';
 export { RegistrarPair, Registrar, Direction, Sector } from './types/index';
 export { Provider as SynchronizerProvider } from './provider';

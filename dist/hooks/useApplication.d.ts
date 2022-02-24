@@ -1,1 +1,1 @@
-export declare function useForceRefresh(): () => void;
+export declare function useForceRefreshCallback(): () => void;

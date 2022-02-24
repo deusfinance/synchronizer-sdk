@@ -1568,7 +1568,7 @@ function useRegistrarTokens(chainId) {
 
 var updateForceRefresh = /*#__PURE__*/toolkit.createAction('application/updateForceRefresh');
 
-function useForceRefresh() {
+function useForceRefreshCallback() {
   var _useApplicationState = useApplicationState(),
       forceRefresh = _useApplicationState.forceRefresh;
 
@@ -2035,7 +2035,7 @@ Object.defineProperty(exports, 'Token', {
 exports.MuonClient = MuonClient;
 exports.SynchronizerProvider = Provider;
 exports.addresses = addresses;
-exports.useForceRefresh = useForceRefresh;
+exports.useForceRefreshCallback = useForceRefreshCallback;
 exports.usePartnerFeeCallback = usePartnerFeeCallback;
 exports.usePlatformFeeCallback = usePlatformFeeCallback;
 exports.useRegistrarByContract = useRegistrarByContract;

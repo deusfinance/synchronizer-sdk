@@ -4,7 +4,7 @@ import { useAppDispatch } from '../state/store'
 import { useApplicationState } from '../state/application/reducer'
 import { updateForceRefresh } from '../state/application/actions'
 
-export function useForceRefresh() {
+export function useForceRefreshCallback() {
   const { forceRefresh } = useApplicationState()
   const dispatch = useAppDispatch()
 
