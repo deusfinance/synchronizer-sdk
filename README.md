@@ -1,5 +1,5 @@
 # Synchronizer SDK
-A React + Redux based library to build your own decentralized stock exchange on top of DEUS Finance. Uses the DEUS Synchronizer V2 AMM and all its peripheral services.
+A React + Redux based library written in Typescript to build your own decentralized stock exchange on top of DEUS Finance. Uses the DEUS Synchronizer V2 AMM and all its peripheral services.
 
 ## Install
 `npm install @deusfinance/synchronizer-sdk`
