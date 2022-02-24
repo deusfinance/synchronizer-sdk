@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Synchronizer from './lib/synchronizer/instance'
+import Synchronizer from './Synchronizer'
 import App from './App'
 
 // Make sure the SynchronizerProvider is injected below the web3 context provider.
