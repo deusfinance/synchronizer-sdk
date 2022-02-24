@@ -1,0 +1,5 @@
+dist
+.gitignore
+.prettierrc
+.yalc/
+tsconfig.json
