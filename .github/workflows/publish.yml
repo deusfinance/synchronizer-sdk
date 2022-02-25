@@ -1,7 +1,7 @@
-name: Release
+name: Publish
 on:
-  push:
-    branches: ['release']
+  # manual trigger
+  workflow_dispatch:
 
 jobs:
   deploy:
