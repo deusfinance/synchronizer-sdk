@@ -19,7 +19,7 @@ const store = configureStore({
     quotes: quotes as Reducer,
     signatures: signatures as Reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: true }),
+  middleware: getDefaultMiddleware => getDefaultMiddleware({ thunk: true }),
 })
 
 setupListeners(store.dispatch)

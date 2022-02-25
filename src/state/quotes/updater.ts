@@ -20,7 +20,7 @@ export default function Updater() {
       console.info('Forcing a quote refresh')
       thunkDispatch(fetchQuotes())
     }
-  }, [forceRefresh])
+  }, [thunkDispatch, forceRefresh])
 
   return null
 }

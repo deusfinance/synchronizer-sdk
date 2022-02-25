@@ -18,7 +18,7 @@ export default function Updater() {
       console.info('Forcing a signatures refresh')
       thunkDispatch(fetchSignatures())
     }
-  }, [forceRefresh])
+  }, [thunkDispatch, forceRefresh])
 
   return null
 }

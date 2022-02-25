@@ -61,9 +61,9 @@ const conductedSlice = createSlice({
   name: 'conducted',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase(fetchConducted.pending, (state) => {
+      .addCase(fetchConducted.pending, state => {
         state.status = ConductedStatus.LOADING
       })
       .addCase(fetchConducted.fulfilled, (state, { payload }) => {

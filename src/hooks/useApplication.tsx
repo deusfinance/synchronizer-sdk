@@ -10,5 +10,5 @@ export function useForceRefreshCallback() {
 
   return useCallback(() => {
     dispatch(updateForceRefresh(forceRefresh + 1))
-  }, [dispatch, forceRefresh, updateForceRefresh])
+  }, [dispatch, forceRefresh])
 }
