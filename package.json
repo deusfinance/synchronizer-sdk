@@ -4,7 +4,7 @@
   "version": "2.0.0",
   "description": "An SDK to interact with the DEUS Finance Synchronizer V2.",
   "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -30,6 +30,11 @@
     "build": "tsdx build && npm run yalc",
     "test": "tsdx test --runInBand",
     "lint": "tsdx lint src --fix",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "version": "git add -A src",
+    "postversion": "git push && git push --tags",
     "yalc": "yalc push"
   },
   "engines": {

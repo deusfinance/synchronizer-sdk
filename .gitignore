@@ -44,6 +44,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# generate output
+dist/
+
 # Local remote package manager
 .yalc/
 yalc.lock
