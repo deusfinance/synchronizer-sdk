@@ -10,7 +10,10 @@ A React + Redux based library written in Typescript to build your own decentrali
 
 ```javascript
 // Import the library and instantiate it.
-import { SynchronizerProvider } from '@deusfinance/synchronizer-sdk'
+import { SynchronizerProvider, MuonClient } from '@deusfinance/synchronizer-sdk'
+
+// Instantiate the Muon instance to gather oracle signatures
+export const Muon = new MuonClient()
 
 // Pass props that can be managed via hooks.
 function SynchronizerInstance({ children }) {
@@ -25,11 +28,14 @@ function SynchronizerInstance({ children }) {
 }
 
 // Add the instance to your DOM tree.
-;<React.StrictMode>
-  <SynchronizerInstance>
-    <YourApp />
-  </SynchronizerInstance>
-</React.StrictMode>
+ReactDOM.render(
+  <React.StrictMode>
+    <SynchronizerInstance>
+      <YourApp />
+    </SynchronizerInstance>
+  </React.StrictMode>
+  document.getElementById('root')
+)
 ```
 
 Then, you can start using all exported methods/hooks in your App. Hooks are simplified for as much as possible, meaning you won't have to do any additional logic to make sense out of data. For example, 'Registrars' have built-in oracle quotes, on-chain partnerFees and other metadata.
@@ -72,16 +78,28 @@ Registrar
 RegistrarPair
 Direction
 Sector
+SignaturesData
+IError
 ```
 
-#### Instances
+#### Signatures
 
 ```javascript
-// Provider instance to add to your component tree
-SynchronizerProvider
+/**
+ * Instantiate the Muon client
+ * @param {optional} baseURL url to interact with the Muon Network, defaults to https://node-balancer.muon.net/v1
+ * @param {optional} nSign minimum number of signatures required, defaults to 2
+ */
+const Muon = new MuonClient()
 
-// Client to fetch trade signatures from
-MuonClient
+/**
+ * Get signatures to pass to your smart contract call.
+ * @param contract the contract address
+ * @param action 'buy' or 'sell'
+ * @param chainId the chain to get the signatures from
+ * @returns Promise<SignaturesData | IError> => extract SignaturesData.calldata for further use
+ */
+Muon.getSignatures(contract: string, action: string, chainId: SupportedChainId)
 ```
 
 #### Hooks

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { useRegistrars, SupportedChainId, Registrar, useForceRefreshCallback } from '@deusfinance/synchronizer-sdk'
+import { Muon } from './Synchronizer'
 
 /*
  * Internal data is updated once every 60 secondes. If you want access to the
@@ -10,6 +11,15 @@ import { useRegistrars, SupportedChainId, Registrar, useForceRefreshCallback } f
 export default function App() {
   const list = useRegistrars(SupportedChainId.FANTOM)
   const forceRefresh = useForceRefreshCallback()
+
+  const getSignatures = async () => {
+    const result = await Muon.getSignatures(
+      '0x082e19213683E1CD3E80634761283e99542c9198',
+      'buy',
+      SupportedChainId.FANTOM
+    )
+    console.log(result)
+  }
 
   return (
     <div
@@ -27,6 +37,14 @@ export default function App() {
         }}
       >
         Click to force a refresh (check the console for feedback)
+      </div>
+      <div
+        onClick={getSignatures}
+        style={{
+          margin: '50px auto',
+        }}
+      >
+        Click to receive signatures. Only use this feature to gather contract calldata.
       </div>
       <table>
         <thead>

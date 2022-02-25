@@ -5,10 +5,11 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var coreSdk = require('@sushiswap/core-sdk');
+var axios = _interopDefault(require('axios'));
+var address = require('@ethersproject/address');
 var React = require('react');
 var React__default = _interopDefault(React);
 var lodash = require('lodash');
-var address = require('@ethersproject/address');
 var toolkit = require('@reduxjs/toolkit');
 var react = require('@reduxjs/toolkit/query/react');
 var reactRedux = require('react-redux');
@@ -23,63 +24,12 @@ var providers = require('@ethersproject/providers');
 
 var SynchronizerChains = [exports.SupportedChainId.FANTOM];
 
-var _Multicall, _Collateral, _Synchronizer, _PartnerManager, _Conductor, _RoleChecker;
-var Multicall2 = (_Multicall = {}, _Multicall[exports.SupportedChainId.FANTOM] = '0x22D4cF72C45F8198CfbF4B568dBdB5A85e8DC0B5', _Multicall);
+var _Collateral, _Synchronizer, _PartnerManager, _Conductor, _RoleChecker;
 var Collateral = (_Collateral = {}, _Collateral[exports.SupportedChainId.FANTOM] = '0xDE12c7959E1a72bbe8a5f7A1dc8f8EeF9Ab011B3', _Collateral);
 var Synchronizer = (_Synchronizer = {}, _Synchronizer[exports.SupportedChainId.FANTOM] = '0x71EB0bCFeB9610a79af007531aEeeE7848e76E71', _Synchronizer);
 var PartnerManager = (_PartnerManager = {}, _PartnerManager[exports.SupportedChainId.FANTOM] = '0x6796a6b39f2c8FF2bEfa223aC6eeD13a4d693ba4', _PartnerManager);
 var Conductor = (_Conductor = {}, _Conductor[exports.SupportedChainId.FANTOM] = '0x570d710d9f20599551246ec24d8a8ccffeb57ccf', _Conductor);
 var RoleChecker = (_RoleChecker = {}, _RoleChecker[exports.SupportedChainId.FANTOM] = '0x8e6f8844b73dae005b02fd8776ee4719e7d5eb01', _RoleChecker);
-
-var _ORACLE_NETWORK_NAMES, _MUON_NETWORK_NAMES;
-
-var INFO_BASE_URL = /*#__PURE__*/new URL('https://oracle1.deus.finance');
-var ORACLE_NETWORK_NAMES = (_ORACLE_NETWORK_NAMES = {}, _ORACLE_NETWORK_NAMES[exports.SupportedChainId.FANTOM] = 'fantom', _ORACLE_NETWORK_NAMES); // export const MuonClient = new Muon('https://node-balancer.muon.net/v1/')
-
-var MuonClient = true; // https://github.com/muon-protocol/muon-node-js/blob/7fb51305f7a4315bf3a4e3d2e258ba37bb4111e3/utils/node-utils/eth.js
-
-var MUON_NETWORK_NAMES = (_MUON_NETWORK_NAMES = {}, _MUON_NETWORK_NAMES[exports.SupportedChainId.FANTOM] = 'fantom', _MUON_NETWORK_NAMES);
-
-var PERCENT_DENOMINATOR = 100;
-var PERCENT_SCALE = 10000;
-function constructPercentage(value) {
-  var percent = ~~(value * PERCENT_SCALE); // bitwise remove decimals
-
-  return new coreSdk.Percent(coreSdk.JSBI.BigInt(percent), PERCENT_DENOMINATOR * PERCENT_SCALE).multiply(PERCENT_DENOMINATOR);
-}
-
-(function (Direction) {
-  Direction["LONG"] = "LONG";
-  Direction["SHORT"] = "SHORT";
-})(exports.Direction || (exports.Direction = {}));
-
-(function (Sector) {
-  Sector["STOCKS"] = "STOCKS";
-  Sector["CRYPTO"] = "CRYPTO";
-  Sector["FOREX"] = "FOREX";
-  Sector["COMMODITIES"] = "COMMODITIES";
-  Sector["MISC"] = "MISC";
-})(exports.Sector || (exports.Sector = {}));
-
-var initialState = {
-  forceRefresh: 0
-};
-var applicationSlice = /*#__PURE__*/toolkit.createSlice({
-  name: 'application',
-  initialState: initialState,
-  reducers: {
-    updateForceRefresh: function updateForceRefresh(state, _ref) {
-      var payload = _ref.payload;
-      state.forceRefresh = payload;
-    }
-  }
-});
-var reducer = applicationSlice.reducer;
-function useApplicationState() {
-  return useAppSelector(function (state) {
-    return state.application;
-  });
-}
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
@@ -894,6 +844,254 @@ try {
   }
 }
 });
+
+var _ORACLE_NETWORK_NAMES, _MUON_NETWORK_NAMES;
+var INFO_BASE_URL = /*#__PURE__*/new URL('https://oracle1.deus.finance');
+var ORACLE_NETWORK_NAMES = (_ORACLE_NETWORK_NAMES = {}, _ORACLE_NETWORK_NAMES[exports.SupportedChainId.FANTOM] = 'fantom', _ORACLE_NETWORK_NAMES);
+var MUON_BASE_URL = 'https://node-balancer.muon.net/v1'; // https://github.com/muon-protocol/muon-node-js/blob/7fb51305f7a4315bf3a4e3d2e258ba37bb4111e3/utils/node-utils/eth.js
+
+var MUON_NETWORK_NAMES = (_MUON_NETWORK_NAMES = {}, _MUON_NETWORK_NAMES[exports.SupportedChainId.FANTOM] = 'fantom', _MUON_NETWORK_NAMES);
+
+function getErrorMessage(error) {
+  if (error instanceof Error) return error.message;
+  return String(error);
+}
+function isError(result) {
+  return result instanceof Error;
+}
+
+var MuonClient = /*#__PURE__*/function () {
+  function MuonClient(baseURL, nSign) {
+    this._APP_ID = 'synchronizer';
+    this._APP_METHOD = 'signature';
+    this._api = axios.create({
+      baseURL: baseURL != null ? baseURL : MUON_BASE_URL,
+      timeout: 20000
+    });
+    this.nSign = nSign != null ? nSign : 2;
+  }
+
+  var _proto = MuonClient.prototype;
+
+  _proto._getChecksumAddress = function _getChecksumAddress(contract) {
+    try {
+      return address.getAddress(contract);
+    } catch (err) {
+      return false;
+    }
+  };
+
+  _proto._getRequestParams = function _getRequestParams(contract, action, chainId) {
+    if (!contract) return new Error('Param `contract` is missing.');
+    if (!action) return new Error('Param `action` is missing.');
+    if (!chainId) return new Error('Param `chainId` is missing.');
+
+    var tokenId = this._getChecksumAddress(contract);
+
+    if (!tokenId) return new Error('Param `contract` is not a valid address.');
+
+    if (action !== 'buy' && action !== 'sell') {
+      return new Error('Param `action` is not supported. Try using buy or sell.');
+    }
+
+    if (!SynchronizerChains.includes(chainId)) return new Error('Param `chainId` is not supported.');
+    return {
+      tokenId: tokenId,
+      action: action,
+      chain: MUON_NETWORK_NAMES[chainId],
+      useMultiplier: false
+    };
+  };
+
+  _proto._makeRequest = /*#__PURE__*/function () {
+    var _makeRequest2 = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/runtime_1.mark(function _callee(requestParams) {
+      var response;
+      return runtime_1.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return this._api({
+                method: 'post',
+                url: '/',
+                data: {
+                  app: this._APP_ID,
+                  method: this._APP_METHOD,
+                  nSign: this.nSign,
+                  params: requestParams
+                }
+              });
+
+            case 2:
+              response = _context.sent;
+
+              if (!(response.status !== 200)) {
+                _context.next = 5;
+                break;
+              }
+
+              return _context.abrupt("return", new Error('Unable to reach the Muon Network.'));
+
+            case 5:
+              return _context.abrupt("return", response.data);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    }));
+
+    function _makeRequest(_x) {
+      return _makeRequest2.apply(this, arguments);
+    }
+
+    return _makeRequest;
+  }();
+
+  _proto.getSignatures = /*#__PURE__*/function () {
+    var _getSignatures = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/runtime_1.mark(function _callee2(contract, action, chainId) {
+      var _result$cid, _result$signatures$, _result$signatures$2, _result$data, _result$data$init, requestParams, response, result, reqId, signature, owner, nonce, sigs;
+
+      return runtime_1.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              requestParams = this._getRequestParams(contract, action, chainId);
+
+              if (!isError(requestParams)) {
+                _context2.next = 4;
+                break;
+              }
+
+              throw new Error(requestParams.message);
+
+            case 4:
+              console.info('Requesting data from Muon: ', requestParams);
+              _context2.next = 7;
+              return this._makeRequest(requestParams);
+
+            case 7:
+              response = _context2.sent;
+
+              if (!isError(response)) {
+                _context2.next = 10;
+                break;
+              }
+
+              throw new Error(response.message);
+
+            case 10:
+              console.info('Response from Muon: ', response);
+
+              if (!('error' in response)) {
+                _context2.next = 15;
+                break;
+              }
+
+              throw new Error(response.error);
+
+            case 15:
+              if (!(!response.success || !response.result.confirmed)) {
+                _context2.next = 17;
+                break;
+              }
+
+              throw new Error('An unknown Muon error has occured');
+
+            case 17:
+              result = response.result;
+              reqId = "0x" + (result == null ? void 0 : (_result$cid = result.cid) == null ? void 0 : _result$cid.substring(1));
+              signature = result == null ? void 0 : (_result$signatures$ = result.signatures[0]) == null ? void 0 : _result$signatures$.signature;
+              owner = result == null ? void 0 : (_result$signatures$2 = result.signatures[0]) == null ? void 0 : _result$signatures$2.owner;
+              nonce = result == null ? void 0 : (_result$data = result.data) == null ? void 0 : (_result$data$init = _result$data.init) == null ? void 0 : _result$data$init.nonceAddress;
+              sigs = [{
+                signature: signature,
+                owner: owner,
+                nonce: nonce
+              }];
+              return _context2.abrupt("return", {
+                success: true,
+                data: {
+                  response: response,
+                  calldata: {
+                    price: result.data.result.price,
+                    expireBlock: result.data.result.expireBlock,
+                    reqId: reqId,
+                    sigs: sigs
+                  }
+                }
+              });
+
+            case 26:
+              _context2.prev = 26;
+              _context2.t0 = _context2["catch"](0);
+              console.error(_context2.t0);
+              return _context2.abrupt("return", {
+                success: false,
+                error: getErrorMessage(_context2.t0)
+              });
+
+            case 30:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this, [[0, 26]]);
+    }));
+
+    function getSignatures(_x2, _x3, _x4) {
+      return _getSignatures.apply(this, arguments);
+    }
+
+    return getSignatures;
+  }();
+
+  return MuonClient;
+}();
+
+var PERCENT_DENOMINATOR = 100;
+var PERCENT_SCALE = 10000;
+function constructPercentage(value) {
+  var percent = ~~(value * PERCENT_SCALE); // bitwise remove decimals
+
+  return new coreSdk.Percent(coreSdk.JSBI.BigInt(percent), PERCENT_DENOMINATOR * PERCENT_SCALE).multiply(PERCENT_DENOMINATOR);
+}
+
+(function (Direction) {
+  Direction["LONG"] = "LONG";
+  Direction["SHORT"] = "SHORT";
+})(exports.Direction || (exports.Direction = {}));
+
+(function (Sector) {
+  Sector["STOCKS"] = "STOCKS";
+  Sector["CRYPTO"] = "CRYPTO";
+  Sector["FOREX"] = "FOREX";
+  Sector["COMMODITIES"] = "COMMODITIES";
+  Sector["MISC"] = "MISC";
+})(exports.Sector || (exports.Sector = {}));
+
+var initialState = {
+  forceRefresh: 0
+};
+var applicationSlice = /*#__PURE__*/toolkit.createSlice({
+  name: 'application',
+  initialState: initialState,
+  reducers: {
+    updateForceRefresh: function updateForceRefresh(state, _ref) {
+      var payload = _ref.payload;
+      state.forceRefresh = payload;
+    }
+  }
+});
+var reducer = applicationSlice.reducer;
+function useApplicationState() {
+  return useAppSelector(function (state) {
+    return state.application;
+  });
+}
 
 var makeHttpRequest = /*#__PURE__*/function () {
   var _ref = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/runtime_1.mark(function _callee(url, options) {

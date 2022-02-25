@@ -7,7 +7,7 @@ export declare const addresses: {
 };
 export { Percent, Token } from '@sushiswap/core-sdk';
 export { SupportedChainId } from './constants/chains';
-export { MuonClient } from './constants/oracle';
+export { MuonClient, SignaturesData } from './muon';
 export { useRegistrars, useRegistrarPairs, useRegistrarByContract, useRegistrarTokens, useRegistrarTokenMap, } from './hooks/useRegistrars';
 export { useTotalFeeCallback, usePlatformFeeCallback, usePartnerFeeCallback } from './hooks/useFees';
 export { useForceRefreshCallback } from './hooks/useApplication';
