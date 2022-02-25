@@ -1,4 +1,4 @@
-export const makeHttpRequest = async function (
+export const makeHttpRequest = async function(
   url: string,
   options: {
     [x: string]: string
