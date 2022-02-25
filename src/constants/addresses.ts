@@ -1,10 +1,6 @@
 import { SupportedChainId } from './chains'
 import { AddressMap } from '../types'
 
-export const Multicall2: AddressMap = {
-  [SupportedChainId.FANTOM]: '0x22D4cF72C45F8198CfbF4B568dBdB5A85e8DC0B5',
-}
-
 export const Collateral: AddressMap = {
   [SupportedChainId.FANTOM]: '0xDE12c7959E1a72bbe8a5f7A1dc8f8EeF9Ab011B3',
 }

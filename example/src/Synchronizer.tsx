@@ -1,4 +1,4 @@
-import { SynchronizerProvider, SupportedChainId } from '@deusfinance/synchronizer-sdk'
+import { SynchronizerProvider, SupportedChainId, MuonClient } from '@deusfinance/synchronizer-sdk'
 
 // This function mimics your web3 provider for demo purposes.
 function someWeb3Context() {
@@ -6,6 +6,8 @@ function someWeb3Context() {
     chainId: SupportedChainId.FANTOM,
   }
 }
+
+export const Muon = new MuonClient()
 
 /**
  * The partnerId must be a valid Address. You can become a partner yourself via

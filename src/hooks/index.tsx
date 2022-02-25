@@ -1,17 +1,9 @@
 import { useMemo } from 'react'
 import { Contract } from '@ethersproject/contracts'
 
-import { Multicall2, PartnerManager } from '../constants/addresses'
-import Multicall2ABI from '../constants/abi/MULTICALL2.json'
+import { PartnerManager } from '../constants/addresses'
 import PartnerManagerABI from '../constants/abi/PARTNER_MANAGER.json'
 import { Providers } from '../constants/providers'
-
-export function useMulticall2(chainId: number) {
-  const address = useMemo(() => {
-    return chainId && chainId in Multicall2 ? Multicall2[chainId] : Multicall2[250]
-  }, [chainId])
-  return useContract(chainId, address, Multicall2ABI)
-}
 
 export function usePartnerManager(chainId: number) {
   const address = useMemo(() => {
