@@ -24,8 +24,7 @@
     "defi"
   ],
   "publishConfig": {
-    "access": "public",
-    "@deusfinance:registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "scripts": {
     "build": "tsdx build && npm run yalc",
