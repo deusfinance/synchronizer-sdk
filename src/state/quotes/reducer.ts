@@ -90,9 +90,9 @@ const quotesSlice = createSlice({
   name: 'quotes',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchQuotes.pending, state => {
+      .addCase(fetchQuotes.pending, (state) => {
         state.status = QuotesStatus.LOADING
       })
       .addCase(fetchQuotes.fulfilled, (state, { payload }) => {

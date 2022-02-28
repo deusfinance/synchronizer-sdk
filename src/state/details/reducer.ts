@@ -56,9 +56,9 @@ const detailsSlice = createSlice({
   name: 'details',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchDetails.pending, state => {
+      .addCase(fetchDetails.pending, (state) => {
         state.status = DetailsStatus.LOADING
       })
       .addCase(fetchDetails.fulfilled, (state, { payload }) => {

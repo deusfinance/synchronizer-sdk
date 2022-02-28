@@ -93,7 +93,7 @@ export function useRegistrarPairs(chainId: SupportedChainId): RegistrarPair[] {
           short: shortRegistrar,
         }
       })
-      .filter(o => o) as RegistrarPair[]
+      .filter((o) => o) as RegistrarPair[]
   }, [chainId, details, conducted, quotes, signatures, stockFee, cryptoFee, forexFee])
 }
 
@@ -126,7 +126,7 @@ export function useRegistrarByContract(contract: string | undefined, chainId: Su
     if (!contract) return undefined
     const registrar: Registrar | undefined = find(
       registrars,
-      obj => obj.contract.toUpperCase() === contract.toUpperCase()
+      (obj) => obj.contract.toUpperCase() === contract.toUpperCase()
     )
     return registrar ?? undefined
   }, [contract, registrars])
@@ -156,5 +156,5 @@ export function useRegistrarTokenMap(chainId: SupportedChainId): TokenMap {
  */
 export function useRegistrarTokens(chainId: SupportedChainId): Token[] {
   const registrars = useRegistrars(chainId)
-  return useMemo(() => registrars.map(registrar => registrar.token), [registrars])
+  return useMemo(() => registrars.map((registrar) => registrar.token), [registrars])
 }

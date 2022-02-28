@@ -70,9 +70,9 @@ const signaturesSlice = createSlice({
   name: 'signatures',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchSignatures.pending, state => {
+      .addCase(fetchSignatures.pending, (state) => {
         state.status = SignaturesStatus.LOADING
       })
       .addCase(fetchSignatures.fulfilled, (state, { payload }) => {

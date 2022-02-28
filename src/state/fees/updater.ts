@@ -16,9 +16,10 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
   const [partnerFees, setPartnerFees] = useState(ZERO_MAP)
   const [platformFees, setPlatformFees] = useState(ZERO_MAP)
 
-  const isSupported: boolean = useMemo(() => (chainId ? Object.values(SynchronizerChains).includes(chainId) : false), [
-    chainId,
-  ])
+  const isSupported: boolean = useMemo(
+    () => (chainId ? Object.values(SynchronizerChains).includes(chainId) : false),
+    [chainId]
+  )
 
   const partnerArgs = useMemo(
     () =>
@@ -37,7 +38,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     const fetchPartnerFees = async () => {
       try {
         const result = await Promise.all(
-          partnerArgs.map(args => {
+          partnerArgs.map((args) => {
             return PartnerManager.partnerFee(...args)
           })
         )
@@ -58,7 +59,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     const fetchPlatformFees = async () => {
       try {
         const result = await Promise.all(
-          platformArgs.map(val => {
+          platformArgs.map((val) => {
             return PartnerManager.platformFee(val)
           })
         )
