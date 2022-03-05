@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Contract } from '@ethersproject/contracts'
 
 import { PartnerManager } from '../constants/addresses'
-import PartnerManagerABI from '../constants/abi/PARTNER_MANAGER.json'
+import { PartnerManagerABI } from '../constants/abi/PartnerManager'
 import { Providers } from '../constants/providers'
 
 export function usePartnerManager(chainId: number) {

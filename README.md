@@ -76,6 +76,13 @@ Hit `npm run start` to start the example app. Everytime you rebuild the source c
 // Latest deployed addresses
 addresses
 
+// Corresponding ABIs
+abis.Synchronizer
+abis.PartnerManager
+abis.Conductor
+abis.RoleChecker
+abis.Registrar
+
 // Enumerator of allowed chainIds
 SupportedChainId
 
