@@ -2,7 +2,7 @@ import { Percent, Token } from '@sushiswap/core-sdk'
 import { SupportedChainId } from '../constants/chains'
 
 export interface AddressMap {
-  [x: string]: string
+  [x: number]: string
 }
 
 export interface TokenMap {

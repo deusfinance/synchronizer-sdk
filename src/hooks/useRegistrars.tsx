@@ -3,7 +3,6 @@ import { Token } from '@sushiswap/core-sdk'
 import { find } from 'lodash'
 import { getAddress } from '@ethersproject/address'
 
-import { SupportedChainId } from '../constants/chains'
 import { constructPercentage } from '../utils/prices'
 import { TokenMap, Registrar, RegistrarPair, Sector, Direction } from '../types'
 
@@ -28,7 +27,7 @@ function sortAlphabetically(x: Registrar, y: Registrar) {
  * @param chainId chainId supported by the Synchronizer
  * @returns mapping of paired Registrars
  */
-export function useRegistrarPairs(chainId: SupportedChainId): RegistrarPair[] {
+export function useRegistrarPairs(chainId: number): RegistrarPair[] {
   const { conducted } = useConductedState()
   const { quotes } = useQuotesState()
   const { signatures } = useSignaturesState()
@@ -102,7 +101,7 @@ export function useRegistrarPairs(chainId: SupportedChainId): RegistrarPair[] {
  * @param chainId chainId supported by the Synchronizer
  * @returns mapping of single Registrars
  */
-export function useRegistrars(chainId: SupportedChainId): Registrar[] {
+export function useRegistrars(chainId: number): Registrar[] {
   const registrars = useRegistrarPairs(chainId)
   return useMemo(() => {
     return registrars
@@ -120,7 +119,7 @@ export function useRegistrars(chainId: SupportedChainId): Registrar[] {
  * @param chainId chainId supported by the Synchronizer
  * @returns found Registrar or undefined
  */
-export function useRegistrarByContract(contract: string | undefined, chainId: SupportedChainId): Registrar | undefined {
+export function useRegistrarByContract(contract: string | undefined, chainId: number): Registrar | undefined {
   const registrars = useRegistrars(chainId)
   return useMemo(() => {
     if (!contract) return undefined
@@ -137,7 +136,7 @@ export function useRegistrarByContract(contract: string | undefined, chainId: Su
  * @param chainId chainId supported by the Synchronizer
  * @returns mapping of Tokens by their respective contracts
  */
-export function useRegistrarTokenMap(chainId: SupportedChainId): TokenMap {
+export function useRegistrarTokenMap(chainId: number): TokenMap {
   const registrars = useRegistrars(chainId)
   return useMemo(
     () =>
@@ -154,7 +153,7 @@ export function useRegistrarTokenMap(chainId: SupportedChainId): TokenMap {
  * @param chainId chainId supported by the Synchronizer
  * @returns list of Tokens
  */
-export function useRegistrarTokens(chainId: SupportedChainId): Token[] {
+export function useRegistrarTokens(chainId: number): Token[] {
   const registrars = useRegistrars(chainId)
   return useMemo(() => registrars.map((registrar) => registrar.token), [registrars])
 }

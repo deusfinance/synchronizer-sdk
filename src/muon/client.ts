@@ -3,7 +3,7 @@ import { getAddress } from '@ethersproject/address'
 
 import { MuonResponse, RequestParams, SignaturesData, IError } from './types'
 import { MUON_NETWORK_NAMES, MUON_BASE_URL } from '../constants/oracle'
-import { SupportedChainId, SynchronizerChains } from '../constants/chains'
+import { SynchronizerChains } from '../constants/chains'
 import { Type, isError, getErrorMessage } from './error'
 
 export class MuonClient {
@@ -28,7 +28,7 @@ export class MuonClient {
     }
   }
 
-  private _getRequestParams(contract: string, action: string, chainId: SupportedChainId): Type<RequestParams> {
+  private _getRequestParams(contract: string, action: string, chainId: number): Type<RequestParams> {
     if (!contract) return new Error('Param `contract` is missing.')
     if (!action) return new Error('Param `action` is missing.')
     if (!chainId) return new Error('Param `chainId` is missing.')
@@ -65,11 +65,7 @@ export class MuonClient {
     return response.data
   }
 
-  public async getSignatures(
-    contract: string,
-    action: string,
-    chainId: SupportedChainId
-  ): Promise<SignaturesData | IError> {
+  public async getSignatures(contract: string, action: string, chainId: number): Promise<SignaturesData | IError> {
     try {
       const requestParams = this._getRequestParams(contract, action, chainId)
       if (isError(requestParams)) throw new Error(requestParams.message)
