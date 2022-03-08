@@ -17,42 +17,52 @@ The following dependencies need to be manually installed:
 ## Usage
 
 ```javascript
-// Import the library and instantiate it.
-import { SynchronizerProvider, MuonClient } from '@deusfinance/synchronizer-sdk'
+import { createSynchronizer, MuonClient } from '@deusfinance/synchronizer-sdk'
 
-// Instantiate the Muon instance to gather oracle signatures
+// Instantiate the Muon instance to gather oracle signatures later in your app
 export const Muon = new MuonClient()
 
-// Pass props that can be managed via hooks.
-function SynchronizerInstance({ children }) {
-  const { chainId } = someWeb3Context()
-  const yourPartnerId = '0x302041dbeB23bc42eb33E85f1c0aE8d5bEDa716A'
+// Instantiate the synchronizer instance
+export const synchronizer = createSynchronizer()
 
-  return (
-    <SynchronizerProvider chainId={chainId} partnerId={yourPartnerId}>
-      {children}
-    </SynchronizerProvider>
-  )
+// The `synchronizer` exports multiple slices, append those into your store
+const yourStore = configureStore({
+  reducer: {
+    // destructure the slices into your reducer
+    ...synchronizer.slices,
+  },
+})
+
+// Export hooks for later use
+export const hooks = synchronizer.hooks
+
+// Spawn an Updater instance
+export function SynchronizerUpdater() {
+  const { chainId } = someWeb3Context()
+  const partnerId = '0x302041dbeB23bc42eb33E85f1c0aE8d5bEDa716A'
+  return <synchronizer.Updater chainId={chainId} partnerId={partnerId} />
 }
 
-// Add the instance to your DOM tree.
+// Add the Updater to your DOM tree
 ReactDOM.render(
   <React.StrictMode>
-    <SynchronizerInstance>
+    <ReduxProvider store={yourStore}>
+      <SynchronizerUpdater />
       <YourApp />
-    </SynchronizerInstance>
+    </ReduxProvider>
   </React.StrictMode>
   document.getElementById('root')
 )
-```
 
-Then, you can start using all exported methods/hooks in your App. Hooks are simplified for as much as possible, meaning you won't have to do any additional logic to make sense out of data. For example, 'Registrars' have built-in oracle quotes, on-chain partnerFees and other metadata.
+```
+Then, you can start using all exported methods/hooks in your App. Hooks are simple in nature, meaning you won't have to do any additional logic to make sense out of data. For example, 'Registrars' have built-in oracle quotes, on-chain partnerFees and other metadata.
 
 ```javascript
-import { useRegistrars, SupportedChainId } from '@deusfinance/synchronizer-sdk'
+import { SupportedChainId } from '@deusfinance/synchronizer-sdk'
+import { hooks } from './yourInstance'
 
 function YourApp() {
-  const registrars = useRegistrars(SupportedChainId.FANTOM)
+  const registrars = hooks.useRegistrars(SupportedChainId.FANTOM)
 
   return <div>Hi, mom!</div>
 }
@@ -60,7 +70,7 @@ function YourApp() {
 
 ## Example
 
-You can find a plug-and-play example React app in the [example](/example) directory.
+You can find a plug-and-play example React app in the [example](/example) directory. Additionally, check out our partner [dSynths](https://github.com/dsynths/dsynths-app-v2) which has fully integrated our SDK into their exchange.
 
 ## Contribute
 
@@ -74,7 +84,11 @@ Hit `npm run start` to start the example app. Everytime you rebuild the source c
 
 ```javascript
 // Latest deployed addresses
-addresses
+addresses.Collateral
+addresses.Synchronizer
+addresses.PartnerManager
+addresses.Conductor
+addresses.RoleChecker
 
 // Corresponding ABIs
 abis.Synchronizer
