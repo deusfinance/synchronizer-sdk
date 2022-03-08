@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { BigNumber } from '@ethersproject/bignumber'
-import { useAppDispatch } from '../store'
 
 import { usePartnerManager } from '../../hooks'
-import { updatePlatformFee, updatePartnerFee } from './reducer'
+import { actions } from './slice'
 import { SynchronizerChains } from '../../constants/chains'
 import { Sector } from '../../types'
 
@@ -11,7 +11,7 @@ const ZERO = BigNumber.from('0')
 const ZERO_MAP = [ZERO, ZERO, ZERO]
 
 export default function Updater({ chainId, partnerId }: { chainId: number; partnerId: string }): null {
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const PartnerManager = usePartnerManager(chainId)
   const [partnerFees, setPartnerFees] = useState(ZERO_MAP)
   const [platformFees, setPlatformFees] = useState(ZERO_MAP)
@@ -83,7 +83,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     if (partnerStocks) {
       const fee = partnerStocks
       dispatch(
-        updatePartnerFee({
+        actions.updatePartnerFee({
           [Sector.STOCKS]: fee.toString(),
         })
       )
@@ -91,7 +91,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     if (partnerCrypto) {
       const fee = partnerCrypto
       dispatch(
-        updatePartnerFee({
+        actions.updatePartnerFee({
           [Sector.CRYPTO]: fee.toString(),
         })
       )
@@ -99,7 +99,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     if (partnerForex) {
       const fee = partnerForex
       dispatch(
-        updatePartnerFee({
+        actions.updatePartnerFee({
           [Sector.FOREX]: fee.toString(),
         })
       )
@@ -108,7 +108,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     if (platformStocks) {
       const fee = platformStocks
       dispatch(
-        updatePlatformFee({
+        actions.updatePlatformFee({
           [Sector.STOCKS]: fee.toString(),
         })
       )
@@ -116,7 +116,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     if (platformCrypto) {
       const fee = platformCrypto
       dispatch(
-        updatePlatformFee({
+        actions.updatePlatformFee({
           [Sector.CRYPTO]: fee.toString(),
         })
       )
@@ -124,7 +124,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
     if (platformForex) {
       const fee = platformForex
       dispatch(
-        updatePlatformFee({
+        actions.updatePlatformFee({
           [Sector.FOREX]: fee.toString(),
         })
       )

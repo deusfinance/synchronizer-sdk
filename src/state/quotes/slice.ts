@@ -1,54 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
 
+import { OracleResponse, Quotes, QuotesResultPayload, QuotesState, QuotesStatus, WithQuotesState } from './types'
 import { INFO_BASE_URL, ORACLE_NETWORK_NAMES } from '../../constants/oracle'
 import { makeHttpRequest } from '../../utils/http'
 
-export enum QuotesStatus {
-  OK = 'OK',
-  LOADING = 'LOADING',
-  ERROR = 'ERROR',
-}
-
-interface OracleResponse {
-  [symbol: string]: {
-    Long?: {
-      price: number
-      fee: number
-      is_close?: boolean
-    }
-    Short?: {
-      price: number
-      fee: number
-      is_close?: boolean
-    }
-  }
-}
-
-type Quote = {
-  price: string
-  open: boolean
-}
-
-interface Quotes {
-  [symbol: string]: {
-    long: Quote
-    short: Quote
-  }
-}
-
-export interface QuotesState {
-  status: QuotesStatus
-  quotes: {
-    [chainId: number]: Quotes
-  }
-}
+const reducerPath = 'synchronizer_quotes'
 
 const initialState: QuotesState = {
   status: QuotesStatus.LOADING,
   quotes: {},
 }
 
-export const fetchQuotes = createAsyncThunk('quotes/fetchQuotes', async () => {
+export const fetchQuotes = createAsyncThunk(`${reducerPath}/fetchQuotes`, async () => {
   const results = await Promise.allSettled(
     Object.entries(ORACLE_NETWORK_NAMES).map(async ([chainId, networkName]) => {
       const { href: url } = new URL(`/${networkName}/price.json`, INFO_BASE_URL)
@@ -87,7 +51,7 @@ export const fetchQuotes = createAsyncThunk('quotes/fetchQuotes', async () => {
 })
 
 const quotesSlice = createSlice({
-  name: 'quotes',
+  name: reducerPath,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -95,9 +59,9 @@ const quotesSlice = createSlice({
       .addCase(fetchQuotes.pending, (state) => {
         state.status = QuotesStatus.LOADING
       })
-      .addCase(fetchQuotes.fulfilled, (state, { payload }) => {
+      .addCase(fetchQuotes.fulfilled, (state, action: PayloadAction<QuotesResultPayload>) => {
         state.status = QuotesStatus.OK
-        state.quotes = payload
+        state.quotes = action.payload
       })
       .addCase(fetchQuotes.rejected, () => {
         console.log('Unable to fetch quotes')
@@ -109,5 +73,11 @@ const quotesSlice = createSlice({
   },
 })
 
-const { reducer } = quotesSlice
-export default reducer
+const { actions, reducer } = quotesSlice
+export { reducerPath, actions, reducer }
+
+export type QuotesActions = typeof quotesSlice['actions']
+
+export function useQuotesState() {
+  return useSelector((state: WithQuotesState) => state[reducerPath])
+}

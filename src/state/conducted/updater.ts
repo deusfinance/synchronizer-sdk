@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
-import { useAppDispatch, AppThunkDispatch } from '../store'
+import { useDispatch } from 'react-redux'
 
-import { fetchConducted } from './reducer'
+import { fetchConducted } from './slice'
 
 export default function Updater() {
-  const thunkDispatch: AppThunkDispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    thunkDispatch(fetchConducted())
-  }, [thunkDispatch])
+    dispatch(fetchConducted())
+  }, [dispatch])
 
   return null
 }

@@ -1,26 +1,26 @@
 import { useEffect } from 'react'
-import { useAppDispatch, AppThunkDispatch } from '../store'
+import { useDispatch } from 'react-redux'
 
-import { fetchQuotes } from './reducer'
-import { useApplicationState } from '../application/reducer'
+import { fetchQuotes } from './slice'
+import { useApplicationState } from '../application/slice'
 
 export default function Updater() {
-  const thunkDispatch: AppThunkDispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const { forceRefresh } = useApplicationState()
 
   useEffect(() => {
-    const loop = setInterval(() => thunkDispatch(fetchQuotes()), 60 * 1000)
-    thunkDispatch(fetchQuotes())
+    const loop = setInterval(() => dispatch(fetchQuotes()), 60 * 1000)
+    dispatch(fetchQuotes())
     return () => clearInterval(loop)
-  }, [thunkDispatch])
+  }, [dispatch])
 
   // ignore initial effect
   useEffect(() => {
     if (forceRefresh) {
       console.info('Forcing a quote refresh')
-      thunkDispatch(fetchQuotes())
+      dispatch(fetchQuotes())
     }
-  }, [thunkDispatch, forceRefresh])
+  }, [dispatch, forceRefresh])
 
   return null
 }

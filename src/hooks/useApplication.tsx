@@ -1,14 +1,13 @@
 import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 
-import { useAppDispatch } from '../state/store'
-import { useApplicationState } from '../state/application/reducer'
-import { updateForceRefresh } from '../state/application/actions'
+import { actions, useApplicationState } from '../state/application/slice'
 
 export function useForceRefreshCallback() {
   const { forceRefresh } = useApplicationState()
-  const dispatch = useAppDispatch()
+  const dispatch = useDispatch()
 
   return useCallback(() => {
-    dispatch(updateForceRefresh(forceRefresh + 1))
+    dispatch(actions.updateForceRefresh(forceRefresh + 1))
   }, [dispatch, forceRefresh])
 }
