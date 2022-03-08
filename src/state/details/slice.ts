@@ -1,35 +1,19 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
 
-import { AppState, useAppSelector } from '../store'
+import { DetailsResultsPayload, DetailsState, DetailsStatus, WithDetailsState } from './types'
 import { INFO_BASE_URL } from '../../constants/oracle'
 import { makeHttpRequest } from '../../utils/http'
 import { Sector } from '../../types'
 
-export enum DetailsStatus {
-  OK = 'OK',
-  LOADING = 'LOADING',
-  ERROR = 'ERROR',
-}
-
-interface DetailsState {
-  status: DetailsStatus
-  details: {
-    [symbol: string]: {
-      name: string
-      sector: Sector
-      symbol: string
-      shortSymbol: string
-      longSymbol: string
-    }
-  }
-}
+const reducerPath = 'synchronizer_details'
 
 const initialState: DetailsState = {
   status: DetailsStatus.LOADING,
   details: {},
 }
 
-export const fetchDetails = createAsyncThunk('details/fetchDetails', async () => {
+export const fetchDetails = createAsyncThunk(`${reducerPath}/fetchDetails`, async () => {
   const { href: url } = new URL(`/registrar-detail.json`, INFO_BASE_URL)
   const response: {
     [symbol: string]: {
@@ -53,7 +37,7 @@ export const fetchDetails = createAsyncThunk('details/fetchDetails', async () =>
 })
 
 const detailsSlice = createSlice({
-  name: 'details',
+  name: reducerPath,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -61,9 +45,9 @@ const detailsSlice = createSlice({
       .addCase(fetchDetails.pending, (state) => {
         state.status = DetailsStatus.LOADING
       })
-      .addCase(fetchDetails.fulfilled, (state, { payload }) => {
+      .addCase(fetchDetails.fulfilled, (state, action: PayloadAction<DetailsResultsPayload>) => {
         state.status = DetailsStatus.OK
-        state.details = payload
+        state.details = action.payload
       })
       .addCase(fetchDetails.rejected, () => {
         console.log('Unable to fetch details')
@@ -75,9 +59,11 @@ const detailsSlice = createSlice({
   },
 })
 
-const { reducer } = detailsSlice
-export default reducer
+const { actions, reducer } = detailsSlice
+export { reducerPath, actions, reducer }
 
-export function useDetailsState(): DetailsState {
-  return useAppSelector((state: AppState) => state.details)
+export type DetailsActions = typeof detailsSlice['actions']
+
+export function useDetailsState() {
+  return useSelector((state: WithDetailsState) => state[reducerPath])
 }

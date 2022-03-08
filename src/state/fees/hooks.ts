@@ -1,13 +1,8 @@
 import { useCallback } from 'react'
-import { AppState, useAppSelector } from '../store'
 import BigNumber from 'bignumber.js'
 
-import { FeesState } from './reducer'
+import { useFeesState } from './slice'
 import { Sector } from '../../types'
-
-export function useFeesState(): FeesState {
-  return useAppSelector((state: AppState) => state.fees)
-}
 
 export function useTotalFeeCallback() {
   const { platformFee, partnerFee } = useFeesState()

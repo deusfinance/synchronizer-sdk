@@ -6,10 +6,10 @@ import { getAddress } from '@ethersproject/address'
 import { constructPercentage } from '../utils/prices'
 import { TokenMap, Registrar, RegistrarPair, Sector, Direction } from '../types'
 
-import { useQuotesState } from '../state/quotes/hooks'
-import { useConductedState } from '../state/conducted/reducer'
-import { useSignaturesState } from '../state/signatures/reducer'
-import { useDetailsState } from '../state/details/reducer'
+import { useQuotesState } from '../state/quotes/slice'
+import { useConductedState } from '../state/conducted/slice'
+import { useSignaturesState } from '../state/signatures/slice'
+import { useDetailsState } from '../state/details/slice'
 import { useTotalFeeCallback } from '../state/fees/hooks'
 
 function sortAlphabetically(x: Registrar, y: Registrar) {

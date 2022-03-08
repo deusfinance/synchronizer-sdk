@@ -1,43 +1,25 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
 
-import { AppState, useAppSelector } from '../store'
+import {
+  Conducted,
+  ConductedResultsPayload,
+  ConductedState,
+  ConductedStatus,
+  OracleResponse,
+  WithConductedState,
+} from './types'
 import { INFO_BASE_URL, ORACLE_NETWORK_NAMES } from '../../constants/oracle'
 import { makeHttpRequest } from '../../utils/http'
 
-export enum ConductedStatus {
-  OK = 'OK',
-  LOADING = 'LOADING',
-  ERROR = 'ERROR',
-}
-
-interface OracleResponse {
-  count: number
-  tokens: {
-    id: string
-    long: string
-    short: string
-  }[]
-}
-
-export type Conducted = {
-  id: string
-  long: string
-  short: string
-}
-
-interface ConductedState {
-  status: ConductedStatus
-  conducted: {
-    [chainId: number]: Conducted[]
-  }
-}
+const reducerPath = 'synchronizer_conducted'
 
 const initialState: ConductedState = {
   status: ConductedStatus.LOADING,
   conducted: {},
 }
 
-export const fetchConducted = createAsyncThunk('conducted/fetchConducted', async () => {
+export const fetchConducted = createAsyncThunk(`${reducerPath}/fetchConducted`, async () => {
   const results = await Promise.allSettled(
     Object.entries(ORACLE_NETWORK_NAMES).map(async ([chainId, networkName]) => {
       const { href: url } = new URL(`/${networkName}/conducted.json`, INFO_BASE_URL)
@@ -58,7 +40,7 @@ export const fetchConducted = createAsyncThunk('conducted/fetchConducted', async
 })
 
 const conductedSlice = createSlice({
-  name: 'conducted',
+  name: reducerPath,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -66,9 +48,9 @@ const conductedSlice = createSlice({
       .addCase(fetchConducted.pending, (state) => {
         state.status = ConductedStatus.LOADING
       })
-      .addCase(fetchConducted.fulfilled, (state, { payload }) => {
+      .addCase(fetchConducted.fulfilled, (state, action: PayloadAction<ConductedResultsPayload>) => {
         state.status = ConductedStatus.OK
-        state.conducted = payload
+        state.conducted = action.payload
       })
       .addCase(fetchConducted.rejected, () => {
         console.log('Unable to fetch conducted')
@@ -80,9 +62,11 @@ const conductedSlice = createSlice({
   },
 })
 
-const { reducer } = conductedSlice
-export default reducer
+const { actions, reducer } = conductedSlice
+export { reducerPath, actions, reducer }
 
-export function useConductedState(): ConductedState {
-  return useAppSelector((state: AppState) => state.conducted)
+export type ConductedActions = typeof conductedSlice['actions']
+
+export function useConductedState() {
+  return useSelector((state: WithConductedState) => state[reducerPath])
 }

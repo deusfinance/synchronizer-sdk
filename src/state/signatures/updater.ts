@@ -1,24 +1,24 @@
+import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { useAppDispatch, AppThunkDispatch } from '../store'
 
-import { fetchSignatures } from './reducer'
-import { useApplicationState } from '../application/reducer'
+import { fetchSignatures } from './slice'
+import { useApplicationState } from '../application/slice'
 
 export default function Updater() {
-  const thunkDispatch: AppThunkDispatch = useAppDispatch()
+  const dispatch = useDispatch()
   const { forceRefresh } = useApplicationState()
 
   useEffect(() => {
-    thunkDispatch(fetchSignatures())
-  }, [thunkDispatch])
+    dispatch(fetchSignatures())
+  }, [dispatch])
 
   // ignore initial effect
   useEffect(() => {
     if (forceRefresh) {
       console.info('Forcing a signatures refresh')
-      thunkDispatch(fetchSignatures())
+      dispatch(fetchSignatures())
     }
-  }, [thunkDispatch, forceRefresh])
+  }, [dispatch, forceRefresh])
 
   return null
 }

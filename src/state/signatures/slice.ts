@@ -1,52 +1,18 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 
-import { AppState, useAppSelector } from '../store'
+import { Signatures, SignaturesResultPayload, SignaturesState, SignaturesStatus, WithSignaturesState } from './types'
 import { INFO_BASE_URL, ORACLE_NETWORK_NAMES } from '../../constants/oracle'
 import { makeHttpRequest } from '../../utils/http'
+import { useSelector } from 'react-redux'
 
-export enum SignaturesStatus {
-  OK = 'OK',
-  LOADING = 'LOADING',
-  ERROR = 'ERROR',
-}
-
-export interface Signature {
-  multiplier: number
-  signs: {
-    sell: {
-      v: number
-      r: string
-      s: string
-    }
-    buy: {
-      v: number
-      r: string
-      s: string
-    }
-  }
-  price: string
-  fee: number
-  blockNo: number
-  index: number
-}
-
-export interface Signatures {
-  [contract: string]: Signature
-}
-
-interface SignaturesState {
-  status: SignaturesStatus
-  signatures: {
-    [chainId: number]: Signatures
-  }
-}
+const reducerPath = 'synchronizer_signatures'
 
 const initialState: SignaturesState = {
   status: SignaturesStatus.LOADING,
   signatures: {},
 }
 
-export const fetchSignatures = createAsyncThunk('signatures/fetchSignatures', async () => {
+export const fetchSignatures = createAsyncThunk(`${reducerPath}/fetchSignatures`, async () => {
   const results = await Promise.allSettled(
     Object.entries(ORACLE_NETWORK_NAMES).map(async ([chainId, networkName]) => {
       const { href: url } = new URL(`/${networkName}/signatures.json`, INFO_BASE_URL)
@@ -67,7 +33,7 @@ export const fetchSignatures = createAsyncThunk('signatures/fetchSignatures', as
 })
 
 const signaturesSlice = createSlice({
-  name: 'signatures',
+  name: reducerPath,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -75,9 +41,9 @@ const signaturesSlice = createSlice({
       .addCase(fetchSignatures.pending, (state) => {
         state.status = SignaturesStatus.LOADING
       })
-      .addCase(fetchSignatures.fulfilled, (state, { payload }) => {
+      .addCase(fetchSignatures.fulfilled, (state, action: PayloadAction<SignaturesResultPayload>) => {
         state.status = SignaturesStatus.OK
-        state.signatures = payload
+        state.signatures = action.payload
       })
       .addCase(fetchSignatures.rejected, () => {
         console.log('Unable to fetch signatures')
@@ -89,9 +55,11 @@ const signaturesSlice = createSlice({
   },
 })
 
-const { reducer } = signaturesSlice
-export default reducer
+const { actions, reducer } = signaturesSlice
+export { reducerPath, actions, reducer }
 
-export function useSignaturesState(): SignaturesState {
-  return useAppSelector((state: AppState) => state.signatures)
+export type SignaturesActions = typeof signaturesSlice['actions']
+
+export function useSignaturesState() {
+  return useSelector((state: WithSignaturesState) => state[reducerPath])
 }

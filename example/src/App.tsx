@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { useRegistrars, SupportedChainId, Registrar, useForceRefreshCallback } from '@deusfinance/synchronizer-sdk'
-import { Muon } from './Synchronizer'
+import { SupportedChainId, Registrar } from '@deusfinance/synchronizer-sdk'
+import { hooks, Muon } from './synchronizer'
 
 /*
  * Internal data is updated once every 60 secondes. If you want access to the
@@ -9,8 +9,8 @@ import { Muon } from './Synchronizer'
  * call forceRefresh.
  */
 export default function App() {
-  const list = useRegistrars(SupportedChainId.FANTOM)
-  const forceRefresh = useForceRefreshCallback()
+  const list = hooks.useRegistrars(SupportedChainId.FANTOM)
+  const forceRefresh = hooks.useForceRefreshCallback()
 
   const getSignatures = async () => {
     const result = await Muon.getSignatures(
@@ -61,7 +61,7 @@ export default function App() {
           </tr>
         </thead>
         <tbody>
-          {list.map((registrar: Registrar, index) => (
+          {list.map((registrar: Registrar, index: number) => (
             <tr key={index}>
               <td>{registrar.ticker}</td>
               <td>{registrar.name}</td>
