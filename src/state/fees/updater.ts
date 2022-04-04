@@ -8,7 +8,7 @@ import { SynchronizerChains } from '../../constants/chains'
 import { Sector } from '../../types'
 
 const ZERO = BigNumber.from('0')
-const ZERO_MAP = [ZERO, ZERO, ZERO]
+const ZERO_MAP = [ZERO, ZERO, ZERO, ZERO]
 
 export default function Updater({ chainId, partnerId }: { chainId: number; partnerId: string }): null {
   const dispatch = useDispatch()
@@ -29,10 +29,11 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
             [partnerId, 0],
             [partnerId, 1],
             [partnerId, 2],
+            [partnerId, 3],
           ],
     [isSupported, partnerId]
   )
-  const platformArgs = useMemo(() => (!isSupported ? [] : [0, 1, 2]), [isSupported])
+  const platformArgs = useMemo(() => (!isSupported ? [] : [0, 1, 2, 3]), [isSupported])
 
   useEffect(() => {
     const fetchPartnerFees = async () => {
@@ -60,7 +61,7 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
       try {
         const result = await Promise.all(
           platformArgs.map((val) => {
-            return PartnerManager.platformFee(val)
+            return PartnerManager.minPlatformFee(val)
           })
         )
         if (result.length) {
@@ -77,8 +78,8 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
   }, [platformArgs, PartnerManager])
 
   useEffect(() => {
-    const [partnerStocks, partnerCrypto, partnerForex] = partnerFees
-    const [platformStocks, platformCrypto, platformForex] = platformFees
+    const [partnerStocks, partnerCrypto, partnerForex, partnerCommodity] = partnerFees
+    const [platformStocks, platformCrypto, platformForex, platformCommodity] = platformFees
     // partner
     if (partnerStocks) {
       const fee = partnerStocks
@@ -104,6 +105,14 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
         })
       )
     }
+    if (partnerCommodity) {
+      const fee = partnerCommodity
+      dispatch(
+        actions.updatePartnerFee({
+          [Sector.COMMODITIES]: fee.toString(),
+        })
+      )
+    }
     // platform
     if (platformStocks) {
       const fee = platformStocks
@@ -126,6 +135,14 @@ export default function Updater({ chainId, partnerId }: { chainId: number; partn
       dispatch(
         actions.updatePlatformFee({
           [Sector.FOREX]: fee.toString(),
+        })
+      )
+    }
+    if (platformCommodity) {
+      const fee = platformCommodity
+      dispatch(
+        actions.updatePlatformFee({
+          [Sector.COMMODITIES]: fee.toString(),
         })
       )
     }

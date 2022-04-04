@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { SupportedChainId, Registrar } from '@deusfinance/synchronizer-sdk'
-import { hooks, Muon } from './synchronizer'
+import { hooks, Muon } from './Synchronizer'
 
 /*
  * Internal data is updated once every 60 secondes. If you want access to the
