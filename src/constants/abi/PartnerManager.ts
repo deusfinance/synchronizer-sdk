@@ -1,16 +1,10 @@
 export const PartnerManagerABI = [
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'platform_',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256[3]',
-        name: 'platformFee_',
-        type: 'uint256[3]',
-      },
+      { internalType: 'address', name: 'owner', type: 'address' },
+      { internalType: 'address', name: 'platformFeeCollector_', type: 'address' },
+      { internalType: 'uint256[]', name: 'minPlatformFee_', type: 'uint256[]' },
+      { internalType: 'uint256[]', name: 'minTotalFee_', type: 'uint256[]' },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -18,136 +12,138 @@ export const PartnerManagerABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256[3]',
-        name: 'partnerFee',
-        type: 'uint256[3]',
-      },
+      { indexed: true, internalType: 'address', name: 'previousOwner', type: 'address' },
+      { indexed: true, internalType: 'address', name: 'newOwner', type: 'address' },
     ],
-    name: 'PartnerAdded',
+    name: 'OwnershipTransferred',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'uint256[]', name: 'registrarType', type: 'uint256[]' },
+      { indexed: false, internalType: 'uint256[]', name: 'minPlatformFee', type: 'uint256[]' },
+      { indexed: false, internalType: 'uint256[]', name: 'minTotalFee', type: 'uint256[]' },
+    ],
+    name: 'PlatformFeeAdded',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'address', name: 'owner', type: 'address' },
+      { indexed: false, internalType: 'uint256[]', name: 'registrarType', type: 'uint256[]' },
+      { indexed: false, internalType: 'uint256[]', name: 'partnerFee', type: 'uint256[]' },
+    ],
+    name: 'RegistrarFeeAdded',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'address', name: 'partnerId', type: 'address' },
+      { indexed: false, internalType: 'int256', name: 'cap', type: 'int256' },
+    ],
+    name: 'SetCap',
     type: 'event',
   },
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'stockFee',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'cryptoFee',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'forexFee',
-        type: 'uint256',
-      },
+      { internalType: 'uint256[]', name: 'registrarType', type: 'uint256[]' },
+      { internalType: 'uint256[]', name: 'minPlatformFee_', type: 'uint256[]' },
+      { internalType: 'uint256[]', name: 'minTotalFee_', type: 'uint256[]' },
     ],
-    name: 'addPartner',
+    name: 'addPlatformFee',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
+      { internalType: 'uint256[]', name: 'registrarType', type: 'uint256[]' },
+      { internalType: 'uint256[]', name: 'partnerFee_', type: 'uint256[]' },
     ],
+    name: 'addRegistrarFee',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
     name: 'isPartner',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    name: 'partnerFee',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'maxCap',
+    outputs: [{ internalType: 'int256', name: '', type: 'int256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'minPlatformFee',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'minTotalFee',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [],
-    name: 'platform',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
+    name: 'owner',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
+      { internalType: 'address', name: '', type: 'address' },
+      { internalType: 'uint256', name: '', type: 'uint256' },
     ],
-    name: 'platformFee',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
+    name: 'partnerFee',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'platformFeeCollector',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  { inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable', type: 'function' },
   {
     inputs: [],
     name: 'scale',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'partnerId', type: 'address' },
+      { internalType: 'int256', name: 'cap', type: 'int256' },
+      { internalType: 'bool', name: 'isNegative', type: 'bool' },
+    ],
+    name: 'setCap',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
 ]

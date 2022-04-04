@@ -101,7 +101,7 @@ export class MuonClient {
           response,
           calldata: {
             price: result.data.result.price,
-            expireBlock: result.data.result.expireBlock,
+            timestamp: result.data.timestamp,
             reqId,
             sigs,
           },

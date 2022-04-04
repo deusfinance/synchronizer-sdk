@@ -6,11 +6,11 @@ export const Collateral: AddressMap = {
 }
 
 export const Synchronizer: AddressMap = {
-  [SupportedChainId.FANTOM]: '0x71EB0bCFeB9610a79af007531aEeeE7848e76E71',
+  [SupportedChainId.FANTOM]: '0x4Ae1B4863da16dE45e5Ab7f0B0d2D3Ad4242eD45',
 }
 
 export const PartnerManager: AddressMap = {
-  [SupportedChainId.FANTOM]: '0x6796a6b39f2c8FF2bEfa223aC6eeD13a4d693ba4',
+  [SupportedChainId.FANTOM]: '0xA1b701D07cc1566e3f07D8c273654CDeA9dad4a0',
 }
 
 export const Conductor: AddressMap = {
