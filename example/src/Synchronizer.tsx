@@ -28,7 +28,7 @@ export const hooks = synchronizer.hooks
  */
 export function SynchronizerUpdater() {
   const { chainId } = someWeb3Context()
-  const partnerId = '0x302041dbeB23bc42eb33E85f1c0aE8d5bEDa716A'
+  const partnerId = '0x1164fe7a76D22EAA66f6A0aDcE3E3a30d9957A5f'
 
   return <synchronizer.Updater chainId={chainId} partnerId={partnerId} />
 }
