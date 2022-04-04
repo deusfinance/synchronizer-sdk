@@ -1,36 +1,14 @@
 export const SynchronizerABI = [
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'deiContract_',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'muonContract_',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'partnerManager_',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'minimumRequiredSignature_',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'virtualReserve_',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint8',
-        name: 'appID_',
-        type: 'uint8',
-      },
+      { internalType: 'address', name: 'owner', type: 'address' },
+      { internalType: 'address', name: 'mintHelper_', type: 'address' },
+      { internalType: 'address', name: 'muonContract_', type: 'address' },
+      { internalType: 'address', name: 'partnerManager_', type: 'address' },
+      { internalType: 'uint256', name: 'minimumRequiredSignatures_', type: 'uint256' },
+      { internalType: 'uint256', name: 'expireTime_', type: 'uint256' },
+      { internalType: 'uint256', name: 'delayTimestamp_', type: 'uint256' },
+      { internalType: 'uint32', name: 'appId_', type: 'uint32' },
     ],
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -38,67 +16,13 @@ export const SynchronizerABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'uint8',
-        name: 'oldID',
-        type: 'uint8',
-      },
-      {
-        indexed: false,
-        internalType: 'uint8',
-        name: 'newID',
-        type: 'uint8',
-      },
-    ],
-    name: 'AppIdSet',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'partnerID',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'registrar',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'deiAmount',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'collateralAmount',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'feeAmount',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'address', name: 'partnerId', type: 'address' },
+      { indexed: false, internalType: 'address', name: 'recipient', type: 'address' },
+      { indexed: false, internalType: 'address', name: 'registrar', type: 'address' },
+      { indexed: false, internalType: 'uint256', name: 'amountIn', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'price', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'collateralAmount', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'feeAmount', type: 'uint256' },
     ],
     name: 'Buy',
     type: 'event',
@@ -106,56 +30,8 @@ export const SynchronizerABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'oldValue',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'newValue',
-        type: 'uint256',
-      },
-    ],
-    name: 'MinimumRequiredSignatureSet',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'oldContract',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'newContract',
-        type: 'address',
-      },
-    ],
-    name: 'MuonContractSet',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'previousOwner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
+      { indexed: true, internalType: 'address', name: 'previousOwner', type: 'address' },
+      { indexed: true, internalType: 'address', name: 'newOwner', type: 'address' },
     ],
     name: 'OwnershipTransferred',
     type: 'event',
@@ -163,48 +39,13 @@ export const SynchronizerABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'partnerID',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'user',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'registrar',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'registrarAmount',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'collateralAmount',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'feeAmount',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'address', name: 'partnerId', type: 'address' },
+      { indexed: false, internalType: 'address', name: 'recipient', type: 'address' },
+      { indexed: false, internalType: 'address', name: 'registrar', type: 'address' },
+      { indexed: false, internalType: 'uint256', name: 'amountIn', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'price', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'collateralAmount', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'feeAmount', type: 'uint256' },
     ],
     name: 'Sell',
     type: 'event',
@@ -212,127 +53,114 @@ export const SynchronizerABI = [
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'bool',
-        name: 'useVirtualReserve',
-        type: 'bool',
-      },
+      { indexed: false, internalType: 'uint32', name: 'oldId', type: 'uint32' },
+      { indexed: false, internalType: 'uint32', name: 'newId', type: 'uint32' },
     ],
-    name: 'UseVirtualReserveToggled',
+    name: 'SetAppId',
     type: 'event',
   },
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'oldReserve',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'newReserve',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'uint256', name: 'oldDelayTimestamp', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'newDelayTimestamp', type: 'uint256' },
     ],
-    name: 'VirtualReserveSet',
+    name: 'SetDelayTimestamp',
     type: 'event',
   },
   {
     anonymous: false,
     inputs: [
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'platform',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'partnerFee',
-        type: 'uint256',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'platformFee',
-        type: 'uint256',
-      },
+      { indexed: false, internalType: 'uint256', name: 'oldExpireTime', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'newExpireTime', type: 'uint256' },
+    ],
+    name: 'SetExpireTime',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'uint256', name: 'oldValue', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'newValue', type: 'uint256' },
+    ],
+    name: 'SetMinimumRequiredSignatures',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'address', name: 'oldMintHelper', type: 'address' },
+      { indexed: false, internalType: 'address', name: 'newMintHelper', type: 'address' },
+    ],
+    name: 'SetMintHelper',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'address', name: 'oldContract', type: 'address' },
+      { indexed: false, internalType: 'address', name: 'newContract', type: 'address' },
+    ],
+    name: 'SetMuonContract',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'uint256', name: 'oldReserve', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'newReserve', type: 'uint256' },
+    ],
+    name: 'SetVirtualReserve',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [{ indexed: false, internalType: 'bool', name: 'useVirtualReserve', type: 'bool' }],
+    name: 'ToggleUseVirtualReserve',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: 'address', name: 'partner', type: 'address' },
+      { indexed: false, internalType: 'uint256', name: 'partnerFee', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'platformFee', type: 'uint256' },
+      { indexed: false, internalType: 'uint256', name: 'registrarType', type: 'uint256' },
     ],
     name: 'WithdrawFee',
     type: 'event',
   },
   {
     inputs: [],
-    name: 'appID',
-    outputs: [
-      {
-        internalType: 'uint8',
-        name: '',
-        type: 'uint8',
-      },
-    ],
+    name: 'appId',
+    outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'partnerID',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_user',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'registrar',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'amountIn',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'expireBlock',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
-      },
-      {
-        internalType: 'bytes',
-        name: '_reqId',
-        type: 'bytes',
-      },
+      { internalType: 'address', name: '', type: 'address' },
+      { internalType: 'address', name: '', type: 'address' },
+    ],
+    name: 'balance',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'partnerId', type: 'address' },
+      { internalType: 'address', name: 'recipient', type: 'address' },
+      { internalType: 'address', name: 'registrar', type: 'address' },
+      { internalType: 'uint256', name: 'amountIn', type: 'uint256' },
+      { internalType: 'uint256', name: 'price', type: 'uint256' },
+      { internalType: 'uint256', name: 'timestamp', type: 'uint256' },
+      { internalType: 'bytes', name: '_reqId', type: 'bytes' },
       {
         components: [
-          {
-            internalType: 'uint256',
-            name: 'signature',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'owner',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'nonce',
-            type: 'address',
-          },
+          { internalType: 'uint256', name: 'signature', type: 'uint256' },
+          { internalType: 'address', name: 'owner', type: 'address' },
+          { internalType: 'address', name: 'nonce', type: 'address' },
         ],
         internalType: 'struct SchnorrSign[]',
         name: 'sigs',
@@ -340,259 +168,162 @@ export const SynchronizerABI = [
       },
     ],
     name: 'buyFor',
+    outputs: [{ internalType: 'uint256', name: 'registrarAmount', type: 'uint256' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'cap',
+    outputs: [{ internalType: 'int256', name: '', type: 'int256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'recipient', type: 'address' }],
+    name: 'collect',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'collat_usd_price',
-        type: 'uint256',
-      },
-    ],
-    name: 'collatDollarBalance',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'deiContract',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'delayTimestamp',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'expireTime',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'partnerID',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'registrar',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'amountOut',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'action',
-        type: 'uint256',
-      },
+      { internalType: 'address', name: '', type: 'address' },
+      { internalType: 'uint256', name: '', type: 'uint256' },
+    ],
+    name: 'feeCollector',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'partnerId', type: 'address' },
+      { internalType: 'address', name: 'registrar', type: 'address' },
+      { internalType: 'uint256', name: 'amountOut', type: 'uint256' },
+      { internalType: 'uint256', name: 'price', type: 'uint256' },
+      { internalType: 'uint256', name: 'action', type: 'uint256' },
     ],
     name: 'getAmountIn',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'amountIn',
-        type: 'uint256',
-      },
-    ],
+    outputs: [{ internalType: 'uint256', name: 'amountIn', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'partnerID',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'registrar',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'amountIn',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'action',
-        type: 'uint256',
-      },
+      { internalType: 'address', name: 'partnerId', type: 'address' },
+      { internalType: 'address', name: 'registrar', type: 'address' },
+      { internalType: 'uint256', name: 'amountIn', type: 'uint256' },
+      { internalType: 'uint256', name: 'price', type: 'uint256' },
+      { internalType: 'uint256', name: 'action', type: 'uint256' },
     ],
     name: 'getAmountOut',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: 'amountOut',
-        type: 'uint256',
-      },
-    ],
+    outputs: [{ internalType: 'uint256', name: 'amountOut', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [],
-    name: 'getChainID',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
+    name: 'getChainId',
+    outputs: [{ internalType: 'uint256', name: 'id', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'partnerId', type: 'address' },
+      { internalType: 'address', name: 'registrar', type: 'address' },
     ],
+    name: 'getTotalFee',
+    outputs: [{ internalType: 'uint256', name: 'fee', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'lastTrade',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [],
-    name: 'minimumRequiredSignature',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
+    name: 'minimumRequiredSignatures',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'mintHelper',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [],
     name: 'muonContract',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [],
     name: 'owner',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [],
     name: 'partnerManager',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
-  {
-    inputs: [],
-    name: 'renounceOwnership',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
+  { inputs: [], name: 'renounceOwnership', outputs: [], stateMutability: 'nonpayable', type: 'function' },
   {
     inputs: [],
     name: 'scale',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [
-      {
-        internalType: 'address',
-        name: 'partnerID',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: '_user',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'registrar',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'amountIn',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'expireBlock',
-        type: 'uint256',
-      },
-      {
-        internalType: 'uint256',
-        name: 'price',
-        type: 'uint256',
-      },
-      {
-        internalType: 'bytes',
-        name: '_reqId',
-        type: 'bytes',
-      },
+      { internalType: 'address', name: 'partnerId', type: 'address' },
+      { internalType: 'address', name: 'recipient', type: 'address' },
+      { internalType: 'address', name: 'registrar', type: 'address' },
+      { internalType: 'uint256', name: 'amountIn', type: 'uint256' },
+      { internalType: 'uint256', name: 'price', type: 'uint256' },
+      { internalType: 'uint256', name: 'timestamp', type: 'uint256' },
+      { internalType: 'bytes', name: '_reqId', type: 'bytes' },
       {
         components: [
-          {
-            internalType: 'uint256',
-            name: 'signature',
-            type: 'uint256',
-          },
-          {
-            internalType: 'address',
-            name: 'owner',
-            type: 'address',
-          },
-          {
-            internalType: 'address',
-            name: 'nonce',
-            type: 'address',
-          },
+          { internalType: 'uint256', name: 'signature', type: 'uint256' },
+          { internalType: 'address', name: 'owner', type: 'address' },
+          { internalType: 'address', name: 'nonce', type: 'address' },
         ],
         internalType: 'struct SchnorrSign[]',
         name: 'sigs',
@@ -600,44 +331,47 @@ export const SynchronizerABI = [
       },
     ],
     name: 'sellFor',
-    outputs: [],
+    outputs: [{ internalType: 'uint256', name: 'deiAmount', type: 'uint256' }],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint8',
-        name: 'appID_',
-        type: 'uint8',
-      },
-    ],
+    inputs: [{ internalType: 'uint32', name: 'appId_', type: 'uint32' }],
     name: 'setAppId',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'minimumRequiredSignature_',
-        type: 'uint256',
-      },
-    ],
-    name: 'setMinimumRequiredSignature',
+    inputs: [{ internalType: 'uint256', name: 'delayTimestamp_', type: 'uint256' }],
+    name: 'setDelayTimestamp',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'muonContract_',
-        type: 'address',
-      },
-    ],
+    inputs: [{ internalType: 'uint256', name: 'expireTime_', type: 'uint256' }],
+    name: 'setExpireTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: 'minimumRequiredSignatures_', type: 'uint256' }],
+    name: 'setMinimumRequiredSignatures',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'mintHelper_', type: 'address' }],
+    name: 'setMintHelper',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'muonContract_', type: 'address' }],
     name: 'setMuonContract',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -645,51 +379,16 @@ export const SynchronizerABI = [
   },
   {
     inputs: [
-      {
-        internalType: 'uint256',
-        name: 'virtualReserve_',
-        type: 'uint256',
-      },
+      { internalType: 'address', name: '', type: 'address' },
+      { internalType: 'uint256', name: '', type: 'uint256' },
     ],
-    name: 'setVirtualReserve',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'toggleUseVirtualReserve',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    name: 'trades',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
+    name: 'tokens',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'newOwner',
-        type: 'address',
-      },
-    ],
+    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
@@ -697,32 +396,16 @@ export const SynchronizerABI = [
   },
   {
     inputs: [],
-    name: 'useVirtualReserve',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
+    name: 'version',
+    outputs: [{ internalType: 'string', name: '', type: 'string' }],
     stateMutability: 'view',
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'virtualReserve',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
+    inputs: [
+      { internalType: 'address', name: 'recipient', type: 'address' },
+      { internalType: 'uint256', name: 'registrarType', type: 'uint256' },
     ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
     name: 'withdrawFee',
     outputs: [],
     stateMutability: 'nonpayable',

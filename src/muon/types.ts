@@ -16,7 +16,7 @@ export interface SignaturesData {
     response: MuonResponse
     calldata: {
       price: string
-      expireBlock: number
+      timestamp: number
       reqId: string
       sigs: {
         signature: string
@@ -51,10 +51,7 @@ export interface MuonResponse {
         action: string
         address: string
         chain: string
-        expireBlock: number
-        multiplier: number
         price: string
-        useMultiplier: boolean
       }
       timestamp: number
     }
@@ -72,10 +69,7 @@ export interface MuonResponse {
         action: string
         address: string
         chain: string
-        expireBlock: number
-        multiplier: number
         price: string
-        useMultiplier: boolean
       }
       signature: string
       timestamp: number
