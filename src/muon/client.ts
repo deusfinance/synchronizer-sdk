@@ -45,14 +45,14 @@ export class MuonClient {
       tokenId,
       action,
       chain: MUON_NETWORK_NAMES[chainId],
-      multiplier: 1,
+      useMultiplier: true,
       id: uuidv4(),
     }
   }
 
   private async _makeRequest(requestParams: RequestParams): Promise<Type<MuonResponse>> {
     const response = await this._api({
-      method: 'post',
+      method: 'POST',
       url: '/',
       data: {
         app: this._APP_ID,

@@ -66,7 +66,7 @@ export function useRegistrarPairs(chainId: number): RegistrarPair[] {
           symbol: asset.longSymbol,
           price: quote.long.price,
           fee: constructPercentage(fee),
-          open: !!longSigs,
+          open: !!longSigs && quote.long.open,
           token: new Token(chainId, getAddress(long), 18, asset.symbol, asset.name),
         }
 
@@ -82,7 +82,7 @@ export function useRegistrarPairs(chainId: number): RegistrarPair[] {
           symbol: asset.shortSymbol,
           price: quote.short.price,
           fee: constructPercentage(fee),
-          open: !!shortSigs,
+          open: !!shortSigs && quote.short.open,
           token: new Token(chainId, getAddress(short), 18, asset.symbol, asset.name),
         }
 

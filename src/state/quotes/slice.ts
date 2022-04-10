@@ -21,16 +21,18 @@ export const fetchQuotes = createAsyncThunk(`${reducerPath}/fetchQuotes`, async 
       // Modify response
       const result = Object.entries(response).reduce((acc: Quotes, [symbol, values]) => {
         const longPrice = values.Long?.price ?? 0
+        const longOpen = !values.Long?.is_close
         const shortPrice = values.Short?.price ?? 0
+        const shortOpen = !values.Short?.is_close
 
         acc[symbol] = {
           long: {
             price: longPrice.toFixed(6),
-            open: !!longPrice,
+            open: !!longPrice && longOpen,
           },
           short: {
             price: shortPrice.toFixed(6),
-            open: !!shortPrice,
+            open: !!shortPrice && shortOpen,
           },
         }
         return acc

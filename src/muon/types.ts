@@ -7,7 +7,7 @@ export interface RequestParams {
   tokenId: string
   action: string
   chain: string
-  multiplier: number
+  useMultiplier: boolean
   id: string
 }
 
@@ -46,7 +46,7 @@ export interface MuonResponse {
         action: string
         chain: string
         tokenId: string
-        multiplier: 1
+        useMultiplier: boolean
         id: string
       }
       result: {
