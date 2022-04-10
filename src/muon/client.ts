@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import { getAddress } from '@ethersproject/address'
+import { v4 as uuidv4 } from 'uuid'
 
 import { MuonResponse, RequestParams, SignaturesData, IError } from './types'
 import { MUON_NETWORK_NAMES, MUON_BASE_URL } from '../constants/oracle'
@@ -44,7 +45,8 @@ export class MuonClient {
       tokenId,
       action,
       chain: MUON_NETWORK_NAMES[chainId],
-      useMultiplier: false,
+      multiplier: 1,
+      id: uuidv4(),
     }
   }
 
