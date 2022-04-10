@@ -8,6 +8,7 @@ export interface RequestParams {
   action: string
   chain: string
   useMultiplier: boolean
+  id: string
 }
 
 export interface SignaturesData {
@@ -46,6 +47,7 @@ export interface MuonResponse {
         chain: string
         tokenId: string
         useMultiplier: boolean
+        id: string
       }
       result: {
         action: string

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import { getAddress } from '@ethersproject/address'
+import { v4 as uuidv4 } from 'uuid'
 
 import { MuonResponse, RequestParams, SignaturesData, IError } from './types'
 import { MUON_NETWORK_NAMES, MUON_BASE_URL } from '../constants/oracle'
@@ -44,13 +45,14 @@ export class MuonClient {
       tokenId,
       action,
       chain: MUON_NETWORK_NAMES[chainId],
-      useMultiplier: false,
+      useMultiplier: true,
+      id: uuidv4(),
     }
   }
 
   private async _makeRequest(requestParams: RequestParams): Promise<Type<MuonResponse>> {
     const response = await this._api({
-      method: 'post',
+      method: 'POST',
       url: '/',
       data: {
         app: this._APP_ID,

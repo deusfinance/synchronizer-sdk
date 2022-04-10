@@ -14,7 +14,7 @@ export default function App() {
 
   const getSignatures = async () => {
     const result = await Muon.getSignatures(
-      '0x082e19213683E1CD3E80634761283e99542c9198',
+      '0xD5725f2F5807B629d08eAdd8c2D65A85B64C64bA', // TSLA
       'buy',
       SupportedChainId.FANTOM
     )
