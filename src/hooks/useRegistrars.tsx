@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Token } from '@sushiswap/core-sdk'
 import { find } from 'lodash'
 import { getAddress } from '@ethersproject/address'
@@ -122,6 +122,24 @@ export function useRegistrars(chainId: number): Registrar[] {
 export function useRegistrarByContract(contract: string | undefined, chainId: number): Registrar | undefined {
   const registrars = useRegistrars(chainId)
   return useMemo(() => {
+    if (!contract) return undefined
+    const registrar: Registrar | undefined = find(
+      registrars,
+      (obj) => obj.contract.toUpperCase() === contract.toUpperCase()
+    )
+    return registrar ?? undefined
+  }, [contract, registrars])
+}
+
+/**
+ * useRegistrarByContract but as a callback function
+ */
+export function useRegistrarByContractCallback(
+  contract: string | undefined,
+  chainId: number
+): () => Registrar | undefined {
+  const registrars = useRegistrars(chainId)
+  return useCallback(() => {
     if (!contract) return undefined
     const registrar: Registrar | undefined = find(
       registrars,
