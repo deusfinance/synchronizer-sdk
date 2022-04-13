@@ -1,7 +1,7 @@
 {
   "name": "@deusfinance/synchronizer-sdk",
   "license": "MIT",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "An SDK to interact with the DEUS Finance Synchronizer V2.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
