@@ -1,4 +1,4 @@
-import { Collateral, Synchronizer, PartnerManager, Conductor, RoleChecker } from './constants/addresses'
+import { Collateral, Synchronizer, PartnerManager, Conductor, RoleChecker, DeiMinter } from './constants/addresses'
 import { SynchronizerABI, PartnerManagerABI, ConductorABI, RoleCheckerABI, RegistrarABI } from './constants/abi'
 
 export const addresses = {
@@ -7,6 +7,7 @@ export const addresses = {
   PartnerManager,
   RoleChecker,
   Synchronizer,
+  DeiMinter,
 }
 
 export const abis = {

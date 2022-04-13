@@ -20,3 +20,7 @@ export const Conductor: AddressMap = {
 export const RoleChecker: AddressMap = {
   [SupportedChainId.FANTOM]: '0x8e6f8844b73dae005b02fd8776ee4719e7d5eb01',
 }
+
+export const DeiMinter: AddressMap = {
+  [SupportedChainId.FANTOM]: '0x1b7879f4db7980e464d6b92fdbf9daa8f1e55073',
+}
